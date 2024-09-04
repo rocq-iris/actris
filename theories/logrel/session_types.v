@@ -108,7 +108,7 @@ Section session_types.
   Global Instance lty_choice_proper a : Proper ((≡) ==> (≡)) (@lty_choice Σ a).
   Proof. apply ne_proper, _. Qed.
   Global Instance lty_choice_contractive a n :
-    Proper (map_relation (dist_later n) (λ _, False) (λ _, False) ==> dist n)
+    Proper (map_relation (λ _, dist_later n) (λ _ _, False) (λ _ _, False) ==> dist n)
            (@lty_choice Σ a).
   Proof.
     intros Ss Ts Heq. rewrite /lty_choice.
