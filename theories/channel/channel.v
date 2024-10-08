@@ -98,7 +98,7 @@ Definition iProto_pointsto_aux : seal (@iProto_pointsto_def). by eexists. Qed.
 Definition iProto_pointsto := iProto_pointsto_aux.(unseal).
 Definition iProto_pointsto_eq :
   @iProto_pointsto = @iProto_pointsto_def := iProto_pointsto_aux.(seal_eq).
-Arguments iProto_pointsto {_ _ _} _ _%proto.
+Arguments iProto_pointsto {_ _ _} _ _%_proto.
 Global Instance: Params (@iProto_pointsto) 4 := {}.
 Notation "c ↣ p" := (iProto_pointsto c p)
   (at level 20, format "c  ↣  p").
@@ -111,7 +111,7 @@ Definition iProto_choice {Σ} (a : action) (P1 P2 : iProp Σ)
     (p1 p2 : iProto Σ) : iProto Σ :=
   (<a @ (b : bool)> MSG #b {{ if b then P1 else P2 }}; if b then p1 else p2)%proto.
 Global Typeclasses Opaque iProto_choice.
-Arguments iProto_choice {_} _ _%I _%I _%proto _%proto.
+Arguments iProto_choice {_} _ _%_I _%_I _%_proto _%_proto.
 Global Instance: Params (@iProto_choice) 2 := {}.
 Infix "<{ P1 }+{ P2 }>" := (iProto_choice Send P1 P2) (at level 85) : proto_scope.
 Infix "<{ P1 }&{ P2 }>" := (iProto_choice Recv P1 P2) (at level 85) : proto_scope.

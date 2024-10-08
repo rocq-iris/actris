@@ -19,7 +19,7 @@ Definition lty_msg_exist {Σ} {k} (M : lty Σ k → lmsg Σ) : lmsg Σ :=
 
 Definition lty_msg_texist {Σ} {kt : ktele Σ} (M : ltys Σ kt → lmsg Σ) : lmsg Σ :=
   ktele_fold (@lty_msg_exist Σ) (λ x, x) (ktele_bind M).
-Arguments lty_msg_texist {_ !_} _%lmsg /.
+Arguments lty_msg_texist {_ !_} _%_lmsg /.
 
 Definition lty_end {Σ} : lsty Σ := Lsty END.
 

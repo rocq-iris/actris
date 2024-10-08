@@ -36,7 +36,7 @@ Class ProtoNormalize {Σ} (d : bool) (p : iProto Σ)
     ⊢ iProto_dual_if d p <++>
         foldr (iProto_app ∘ uncurry iProto_dual_if) END%proto pas ⊑ q.
 Global Hint Mode ProtoNormalize ! ! ! ! - : typeclass_instances.
-Arguments ProtoNormalize {_} _ _%proto _%proto _%proto.
+Arguments ProtoNormalize {_} _ _%_proto _%_proto _%_proto.
 
 Notation ProtoUnfold p1 p2 := (∀ d pas q,
   ProtoNormalize d p2 pas q → ProtoNormalize d p1 pas q).
@@ -46,7 +46,7 @@ Class MsgNormalize {Σ} (d : bool) (m1 : iMsg Σ)
   msg_normalize a :
     ProtoNormalize d (<a> m1) pas (<(if d then action_dual a else a)> m2).
 Global Hint Mode MsgNormalize ! ! ! ! - : typeclass_instances.
-Arguments MsgNormalize {_} _ _%msg _%msg _%msg.
+Arguments MsgNormalize {_} _ _%_msg _%_msg _%_msg.
 
 Section classes.
   Context `{!chanG Σ, !heapGS Σ}.
