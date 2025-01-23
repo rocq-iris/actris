@@ -65,7 +65,7 @@ Next Obligation. solve_proper. Qed.
 Definition iMsg_base_aux : seal (@iMsg_base_def). by eexists. Qed.
 Definition iMsg_base := iMsg_base_aux.(unseal).
 Definition iMsg_base_eq : @iMsg_base = @iMsg_base_def := iMsg_base_aux.(seal_eq).
-Arguments iMsg_base {_ _} _%V _%I _%proto.
+Arguments iMsg_base {_ _} _%_V _%_I _%_proto.
 Global Instance: Params (@iMsg_base) 3 := {}.
 
 Program Definition iMsg_exist_def {Σ V A} (m : A → iMsg Σ V) : iMsg Σ V :=
@@ -74,12 +74,12 @@ Next Obligation. solve_proper. Qed.
 Definition iMsg_exist_aux : seal (@iMsg_exist_def). by eexists. Qed.
 Definition iMsg_exist := iMsg_exist_aux.(unseal).
 Definition iMsg_exist_eq : @iMsg_exist = @iMsg_exist_def := iMsg_exist_aux.(seal_eq).
-Arguments iMsg_exist {_ _ _} _%msg.
+Arguments iMsg_exist {_ _ _} _%_msg.
 Global Instance: Params (@iMsg_exist) 3 := {}.
 
 Definition iMsg_texist {Σ V} {TT : tele} (m : TT → iMsg Σ V) : iMsg Σ V :=
   tele_fold (@iMsg_exist Σ V) (λ x, x) (tele_bind m).
-Arguments iMsg_texist {_ _ !_} _%msg /.
+Arguments iMsg_texist {_ _ !_} _%_msg /.
 
 Notation "'MSG' v {{ P } } ; p" := (iMsg_base v P p)
   (at level 200, v at level 20, right associativity,
@@ -114,7 +114,7 @@ Definition iProto_message_aux : seal (@iProto_message_def). by eexists. Qed.
 Definition iProto_message := iProto_message_aux.(unseal).
 Definition iProto_message_eq :
   @iProto_message = @iProto_message_def := iProto_message_aux.(seal_eq).
-Arguments iProto_message {_ _} _ _%msg.
+Arguments iProto_message {_ _} _ _%_msg.
 Global Instance: Params (@iProto_message) 3 := {}.
 
 Notation "'END'" := iProto_end : proto_scope.
@@ -166,7 +166,7 @@ Definition iProto_app_def {Σ V} (p1 p2 : iProto Σ V) : iProto Σ V :=
 Definition iProto_app_aux : seal (@iProto_app_def). Proof. by eexists. Qed.
 Definition iProto_app := iProto_app_aux.(unseal).
 Definition iProto_app_eq : @iProto_app = @iProto_app_def := iProto_app_aux.(seal_eq).
-Arguments iProto_app {_ _} _%proto _%proto.
+Arguments iProto_app {_ _} _%_proto _%_proto.
 Global Instance: Params (@iProto_app) 2 := {}.
 Infix "<++>" := iProto_app (at level 60) : proto_scope.
 Notation "m <++> p" := (iMsg_map (flip iProto_app p) m) : msg_scope.
@@ -177,13 +177,13 @@ Definition iProto_dual_aux : seal (@iProto_dual_def). Proof. by eexists. Qed.
 Definition iProto_dual := iProto_dual_aux.(unseal).
 Definition iProto_dual_eq :
   @iProto_dual = @iProto_dual_def := iProto_dual_aux.(seal_eq).
-Arguments iProto_dual {_ _} _%proto.
+Arguments iProto_dual {_ _} _%_proto.
 Global Instance: Params (@iProto_dual) 2 := {}.
 Notation iMsg_dual := (iMsg_map iProto_dual).
 
 Definition iProto_dual_if {Σ V} (d : bool) (p : iProto Σ V) : iProto Σ V :=
   if d then iProto_dual p else p.
-Arguments iProto_dual_if {_ _} _ _%proto.
+Arguments iProto_dual_if {_ _} _ _%_proto.
 Global Instance: Params (@iProto_dual_if) 3 := {}.
 
 (** * Proofs *)
@@ -487,7 +487,7 @@ Qed.
 Definition iProto_consistent {Σ V} (ps : list (iProto Σ V)) : iProp Σ :=
   fixpoint iProto_consistent_pre' ps.
 
-Arguments iProto_consistent {_ _} _%proto.
+Arguments iProto_consistent {_ _} _%_proto.
 Global Instance: Params (@iProto_consistent) 1 := {}.
 
 Global Instance iProto_consistent_ne {Σ V} : NonExpansive (@iProto_consistent Σ V).
@@ -530,7 +530,7 @@ Proof.
 Qed.
 Definition iProto_le {Σ V} (p1 p2 : iProto Σ V) : iProp Σ :=
   fixpoint iProto_le_pre' p1 p2.
-Arguments iProto_le {_ _} _%proto _%proto.
+Arguments iProto_le {_ _} _%_proto _%_proto.
 Global Instance: Params (@iProto_le) 2 := {}.
 Notation "p ⊑ q" := (iProto_le p q) : bi_scope.
 
@@ -566,7 +566,7 @@ Definition iProto_ctx `{protoG Σ V}
 Definition iProto_own `{!protoG Σ V}
     (γ : gname) (i : nat) (p : iProto Σ V) : iProp Σ :=
   ∃ p', ▷ (p' ⊑ p) ∗ iProto_own_frag γ i p'.
-Arguments iProto_own {_ _ _} _ _ _%proto.
+Arguments iProto_own {_ _ _} _ _ _%_proto.
 Global Instance: Params (@iProto_own) 3 := {}.
 
 Global Instance iProto_own_frag_contractive `{protoG Σ V} γ i :
@@ -860,7 +860,7 @@ Section proto.
     { apply (gmap_view_alloc _ (length ps) (DfracOwn 1) (Excl' (Next p))); [|done|done].
       rewrite fmap_map_seq.
       rewrite lookup_map_seq_0.
-      apply lookup_ge_None_2. rewrite fmap_length. done. }
+      apply lookup_ge_None_2. rewrite length_fmap. done. }
     simpl.
     iModIntro. 
     rewrite right_id_L. 
@@ -965,7 +965,7 @@ Section proto.
       iNext.
       iDestruct ("IH" with "Hprot Hle [HSome]") as "HI".
       { rewrite list_lookup_insert; [done|].
-        by rewrite insert_length. }
+        by rewrite length_insert. }
       iClear "IH Hm1 Hm2 Heq".
       rewrite list_insert_insert.
       rewrite (list_insert_commute _ j' i); [|done].
@@ -1266,7 +1266,7 @@ Section proto.
       rewrite list_lookup_insert_ne; [|done].
       rewrite list_lookup_insert; [done|]. lia. }
     { rewrite list_lookup_insert_ne; [|done].
-      rewrite list_lookup_insert; [done|]. rewrite insert_length. lia. }
+      rewrite list_lookup_insert; [done|]. rewrite length_insert. lia. }
     iMod (iProto_own_auth_update _ _ _ _ p2 with "Hauth Hj") as "[Hauth Hj]".
     iMod (iProto_own_auth_update _ _ _ _ p1 with "Hauth Hi") as "[Hauth Hi]".
     iIntros "!>!>". iExists p2. iFrame "Hm2".
@@ -1274,7 +1274,7 @@ Section proto.
     iSplitL "Hconsistent Hauth".
     { iExists (<[i:=p1]> (<[j:=p2]> ps)).
       iSplit.
-      { iPureIntro. rewrite !insert_length. done. } 
+      { iPureIntro. rewrite !length_insert. done. }
       iFrame. rewrite list_insert_insert.
       rewrite list_insert_commute; [|done]. rewrite list_insert_insert.
       by rewrite list_insert_commute; [|done]. }

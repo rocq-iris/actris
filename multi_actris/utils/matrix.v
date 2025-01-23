@@ -36,7 +36,7 @@ Section with_Σ.
     iDestruct "Hl" as "[Hl Hls]".
     iDestruct ("IHn" with "Hl") as "Hl".
     iFrame=> /=.
-    rewrite Nat.add_0_r !replicate_length.
+    rewrite Nat.add_0_r !length_replicate.
     replace (Z.of_nat (n * m)) with (Z.of_nat n * Z.of_nat m)%Z by lia.
     by iFrame.
   Qed.
@@ -50,7 +50,7 @@ Section with_Σ.
     replace (S n) with (n + 1) by lia.
     rewrite !replicate_add /=. iDestruct "H" as "[H1 H2]".
     iSplitL "H1"; [by iApply "IHn"|]=> /=.
-    by rewrite !replicate_length.
+    by rewrite !length_replicate.
   Qed.
 
   Lemma array_to_matrix l m n v :

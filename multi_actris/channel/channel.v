@@ -103,7 +103,7 @@ Definition iProto_pointsto_aux : seal (@iProto_pointsto_def). by eexists. Qed.
 Definition iProto_pointsto := iProto_pointsto_aux.(unseal).
 Definition iProto_pointsto_eq :
   @iProto_pointsto = @iProto_pointsto_def := iProto_pointsto_aux.(seal_eq).
-Arguments iProto_pointsto {_ _ _} _ _%proto.
+Arguments iProto_pointsto {_ _ _} _ _%_proto.
 Global Instance: Params (@iProto_pointsto) 5 := {}.
 Notation "c ↣ p" := (iProto_pointsto c p)
   (at level 20, format "c  ↣  p").
