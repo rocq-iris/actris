@@ -1,5 +1,5 @@
 -Q actris actris
--Q multi_actris multi_actris
+-Q multris multris
 # We sometimes want to locally override notation, and there is no good way to do that with scopes.
 -arg -w -arg -notation-overridden
 # Cannot use non-canonical projections as it causes massive unification failures
@@ -52,13 +52,13 @@ actris/logrel/examples/mapper_list.v
 actris/logrel/examples/compute_service.v
 actris/logrel/examples/compute_client_list.v
 
-multi_actris/utils/cofe_solver_2.v
-multi_actris/utils/matrix.v
-multi_actris/channel/proto_model.v
-multi_actris/channel/proto.v
-multi_actris/channel/channel.v
-multi_actris/channel/proofmode.v
-multi_actris/examples/basics.v
-multi_actris/examples/two_buyer.v
-multi_actris/examples/three_buyer.v
-multi_actris/examples/leader_election.v
+multris/utils/cofe_solver_2.v
+multris/utils/matrix.v
+multris/channel/proto_model.v
+multris/channel/proto.v
+multris/channel/channel.v
+multris/channel/proofmode.v
+multris/examples/basics.v
+multris/examples/two_buyer.v
+multris/examples/three_buyer.v
+multris/examples/leader_election.v

@@ -21,9 +21,9 @@ the subprotocol relation [⊑] *)
 From iris.algebra Require Import gmap excl_auth gmap_view.
 From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Export primitive_laws notation proofmode.
-From multi_actris.utils Require Import matrix.
-From multi_actris.channel Require Import proto_model.
-From multi_actris.channel Require Export proto.
+From multris.utils Require Import matrix.
+From multris.channel Require Import proto_model.
+From multris.channel Require Export proto.
 Set Default Proof Using "Type".
 
 (** * The definition of the message-passing connectives *)
@@ -162,7 +162,7 @@ Section channel.
       { apply excl_auth_valid. }
       iMod ("IHn" with "Hps'") as (γEs Hlen) "H".
       iModIntro. iExists (γEs++[γE]).
-      rewrite !app_length Hlen.
+      rewrite !length_app Hlen.
       iSplit; [iPureIntro=>/=;lia|]=> /=.
       iSplitL "H".
       { iApply (big_sepL_impl with "H").

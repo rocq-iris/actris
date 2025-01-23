@@ -1,6 +1,6 @@
 From iris.heap_lang Require Import adequacy.
 From iris.heap_lang.lib Require Import assert.
-From multi_actris.channel Require Import proofmode.
+From multris.channel Require Import proofmode.
 
 (** Inspired by https://en.wikipedia.org/wiki/Chang_and_Roberts_algorithm *)
 

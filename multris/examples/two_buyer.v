@@ -1,4 +1,4 @@
-From multi_actris.channel Require Import proofmode.
+From multris.channel Require Import proofmode.
 Set Default Proof Using "Type".
 
 Definition buyer1_prog : val :=
