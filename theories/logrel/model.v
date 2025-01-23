@@ -24,8 +24,8 @@ Global Instance kind_inhabited : Inhabited kind := populate tty_kind.
 Variant lty Σ : kind → Type :=
   | Ltty : (val → iProp Σ) → lty Σ tty_kind
   | Lsty : iProto Σ → lty Σ sty_kind.
-Arguments Ltty {_} _%I.
-Arguments Lsty {_} _%proto.
+Arguments Ltty {_} _%_I.
+Arguments Lsty {_} _%_proto.
 
 Declare Scope lty_scope.
 Bind Scope lty_scope with lty.
