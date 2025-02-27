@@ -211,7 +211,7 @@ Section mapper.
       inversion 1 as [|?? [? _]]; discriminate_list || simplify_list_eq.
       assert (RZB (j',y') (i,y'')) as [??]; last (simpl in *; lia).
       apply (Sorted_StronglySorted _) in Hsort.
-      eapply elem_of_StronglySorted_app; set_solver.
+      eapply StronglySorted_app; set_solver.
   Qed.
 
   Lemma par_map_reduce_reduce_spec n iys iys_sorted miy zs l Y csort cred :
