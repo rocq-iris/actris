@@ -5,6 +5,7 @@
 # Cannot use non-canonical projections as it causes massive unification failures
 # (https://github.com/coq/coq/issues/6294).
 -arg -w -arg -redundant-canonical-projection
+-arg -w -arg -notation-incompatible-prefix
 # No common logical root, so we have to specify documentation root, to avoid warnings
 -docroot actris
 
