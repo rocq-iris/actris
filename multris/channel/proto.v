@@ -812,8 +812,8 @@ Section proto.
     rewrite lookup_map_seq_0.    
     destruct (ps !! i) eqn:Heqn; last first.
     { rewrite Heqn. rewrite !option_equivI. done. }
-    rewrite Heqn.
-    simpl. rewrite !option_equivI excl_equivI. by iNext.
+    rewrite Heqn /= !option_equivI excl_equivI. iNext.
+    by destruct o,p; rewrite option_equivI.
   Qed.
 
   Lemma iProto_own_auth_agree_Some γ ps i p :
@@ -936,12 +936,11 @@ Section proto.
     destruct (decide (i = i')) as [<-|Hneq].
     { rewrite list_lookup_total_insert; [|done].
       pose proof (iProto_case p2) as [Hend|Hmsg].
-      { setoid_rewrite Hend.
-        rewrite !option_equivI. rewrite iProto_end_message_equivI. done. }
+      { setoid_rewrite Hend. rewrite iProto_end_message_equivI. done. }
       destruct Hmsg as (a&?&m&Hmsg).
       setoid_rewrite Hmsg.
       destruct a; last first.
-      { rewrite !option_equivI. rewrite iProto_message_equivI.
+      { rewrite iProto_message_equivI.
         iDestruct "Hm1" as "[%Htag Hm1]". done. }
       rewrite iProto_message_equivI.
       iDestruct "Hm1" as "[%Htag Hm1]".
@@ -975,13 +974,11 @@ Section proto.
     { rewrite list_lookup_total_insert; [|done].
       pose proof (iProto_case p2) as [Hend|Hmsg].
       { setoid_rewrite Hend.
-        rewrite !option_equivI.
         rewrite iProto_end_message_equivI. done. }
       destruct Hmsg as (a&?&m&Hmsg).
       setoid_rewrite Hmsg.
       destruct a.
-      { rewrite !option_equivI.
-        rewrite iProto_message_equivI.
+      { rewrite iProto_message_equivI.
         iDestruct "Hm2" as "[%Htag Hm2]". done. }
       rewrite iProto_message_equivI.
       iDestruct "Hm2" as "[%Htag Hm2]".
