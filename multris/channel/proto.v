@@ -389,7 +389,7 @@ Section proto.
     destruct (iProto_case p1) as [->|(a&i&m&->)].
     { by rewrite !left_id. }
     rewrite !iProto_app_message. f_equiv=> v p' /=. do 4 f_equiv.
-    f_contractive. apply IH; eauto using dist_le with lia.
+    f_contractive. apply IH; eauto using dist_lt.
   Qed.
   Global Instance iProto_app_proper : Proper ((≡) ==> (≡) ==> (≡)) (@iProto_app Σ V).
   Proof. apply (ne_proper_2 _). Qed.

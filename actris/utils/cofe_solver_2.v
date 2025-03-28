@@ -14,8 +14,8 @@ Global Existing Instance solution_2_cofe.
 Section cofe_solver_2.
   Context (F : ofe → oFunctor).
   Context `{Fcontr : !∀ T, oFunctorContractive (F T)}.
-  Context `{Fcofe : !∀ `{!Cofe T, Cofe Bn, !Cofe B}, Cofe (oFunctor_car (F T) Bn B)}.
-  Context `{Finh : !∀ `{!Cofe T, Cofe Bn, !Cofe B}, Inhabited (oFunctor_car (F T) Bn B)}.
+  Context `{Fcofe : !∀ `{!Cofe T, !Cofe Bn, !Cofe B}, Cofe (oFunctor_car (F T) Bn B)}.
+  Context `{Finh : !∀ `{!Cofe T, !Cofe Bn, !Cofe B}, Inhabited (oFunctor_car (F T) Bn B)}.
   Notation map := (oFunctor_map (F _)).
 
   Definition F_2 (An : ofe) `{!Cofe An} (A : ofe) `{!Cofe A} : oFunctor :=

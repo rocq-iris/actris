@@ -213,7 +213,7 @@ Proof.
   induction (lt_wf n) as [n _ IH]=>
     PROPn Hcn PROPn' Hcn' PROP Hc PROP' Hc' gn g p.
   etrans; [apply equiv_dist, (fixpoint_unfold (proto_map_aux_2 gn g))|].
-  apply proto_map_aux_contractive; constructor=> n' ?. symmetry. apply: IH. lia.
+  apply proto_map_aux_contractive; constructor=> n' ?. symmetry. by apply: IH.
 Qed.
 Lemma proto_map_end {V} `{!Cofe PROPn, !Cofe PROPn', !Cofe PROP, !Cofe PROP'}
     (gn : PROPn' -n> PROPn) (g : PROP -n> PROP') :
@@ -241,7 +241,7 @@ Proof.
   destruct (proto_case p) as [->|(a & m & ->)]; [by rewrite !proto_map_end|].
   rewrite !proto_map_message /=.
   apply proto_message_ne=> // v p' /=. f_equiv; [done|]. f_equiv.
-  apply Next_contractive; dist_later_intro as n' Hn'; eauto using dist_le with lia.
+  apply Next_contractive; dist_later_intro as n' Hn'; eauto using dist_lt.
 Qed.
 Lemma proto_map_ext {V} `{!Cofe PROPn, !Cofe PROPn', !Cofe PROP, !Cofe PROP'}
     (gn1 gn2 : PROPn' -n> PROPn) (g1 g2 : PROP -n> PROP') p :
