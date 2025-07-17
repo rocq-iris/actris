@@ -186,14 +186,14 @@ Section session_typing_rules.
     rewrite big_sepL2_fmap_l.
     iDestruct (big_sepL2_length with "H") as %Heq.
     rewrite -insert_union_singleton_r; last by apply lookup_map_string_seq_None.
-    rewrite /= lookup_insert.
+    rewrite /= lookup_insert_eq.
     wp_recv (x) as "HPsx". iDestruct "HPsx" as %HPs_Some.
     wp_pures. rewrite -subst_map_insert.
     assert (x ∈ xs) as Hin by naive_solver.
     pose proof (list_find_elem_of (x =.) xs x) as [[n z] Hfind_Some]; [done..|].
     iApply switch_body_spec.
     { apply fmap_Some_2, Hfind_Some. }
-    { by rewrite lookup_insert. }
+    { by rewrite lookup_insert_eq. }
     simplify_map_eq. rewrite lookup_map_string_seq_Some.
     assert (xs !! n = Some x) as Hxs_Some.
     { by apply list_find_Some in Hfind_Some as [? [-> _]]. }

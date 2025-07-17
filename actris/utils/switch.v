@@ -30,7 +30,7 @@ Lemma lookup_map_string_seq_Some {A} (j i : nat) (xs : list A) :
   map_string_seq "f" j xs !! ("f" +:+ pretty (i + j)) = xs !! i.
 Proof.
   revert i j. induction xs as [|x xs IH]=> -[|i] j //=.
-  - by rewrite lookup_insert.
+  - by rewrite lookup_insert_eq.
   - rewrite lookup_insert_ne; last (intros ?; simplify_eq/=; lia).
     by rewrite -Nat.add_succ_r IH.
 Qed.
@@ -94,6 +94,6 @@ Proof.
   iIntros (???) "H". iApply wp_bind. wp_lam.
   rewrite -subst_map_singleton. iApply switch_lams_spec; first done.
   iApply switch_body_spec; [done|..].
-  - by rewrite lookup_union_r ?lookup_singleton // lookup_map_string_seq_None.
+  - by rewrite lookup_union_r ?lookup_singleton_eq // lookup_map_string_seq_None.
   - by rewrite /= (lookup_union_Some_l _ _ _ vf) // lookup_map_string_seq_Some.
 Qed.

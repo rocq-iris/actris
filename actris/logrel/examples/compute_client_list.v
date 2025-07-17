@@ -125,7 +125,7 @@ Section compute_example.
         (compute_type_client) by eauto.
     rewrite /compute_type_client_aux.
     iApply lty_le_select_subseteq.
-    rewrite insert_commute; [ | eauto ].
+    rewrite insert_insert_ne; [ | eauto ].
     apply insert_mono, insert_subseteq; done.
   Qed.
 
@@ -187,7 +187,7 @@ Section compute_example.
       wp_smart_apply (release_spec with "[-HΦ Hl]").
       { iFrame "Hlk Hlocked".
         iExists n, false.
-        rewrite lookup_total_insert -lsty_car_app lty_app_end_l lty_app_end_r.
+        rewrite lookup_total_insert_eq -lsty_car_app lty_app_end_l lty_app_end_r.
         iFrame "Hf Hcounter Hc". }
       iIntros "_". iApply "HΦ". by iFrame "Hl Hlk". }
     wp_lam. wp_smart_apply (lisnil_spec with "Hl"); iIntros "Hl".
@@ -208,7 +208,7 @@ Section compute_example.
       iApply recv_type_cont_type_swap. }
     rewrite /select.
     wp_send with "[]"; [ eauto | ].
-    rewrite lookup_total_insert.
+    rewrite lookup_total_insert_eq.
     wp_smart_apply (lpop_spec with "Hl"); iIntros (v) "[HIx Hl]".
     wp_send with "[HIx]".
     { iDestruct "HIx" as (->) "$HIx". }

@@ -204,7 +204,7 @@ Section mapper.
       rewrite /= !right_id_L assoc_L. iFrame. iPureIntro; split.
       { by apply Sorted_snoc. }
       split; first congruence.
-      intros [[j' y'] [-> Hj]]%elem_of_list_fmap.
+      intros [[j' y'] [-> Hj]]%list_elem_of_fmap.
       destruct Hij; do 2 f_equal.
       destruct ys as [|y'' ys _] using rev_ind; first done.
       move: Htl. rewrite fmap_app assoc_L /=.

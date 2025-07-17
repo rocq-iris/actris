@@ -249,7 +249,7 @@ Section mapper_example.
     wp_lam. wp_smart_apply (lisnil_spec with "Hl"); iIntros "Hl".
     rewrite /select.
     wp_send with "[]"; first by eauto.
-    rewrite lookup_total_insert.
+    rewrite lookup_total_insert_eq.
     wp_smart_apply (lpop_spec with "Hl"); iIntros (v) "[HIx Hl]".
     wp_send with "[HIx]".
     { iDestruct "HIx" as (->) "$HIx". }
@@ -275,7 +275,7 @@ Section mapper_example.
     { iApply recv_mapper_type_rec_client_unfold_app. }
     rewrite /select.
     wp_send with "[]"; first by eauto.
-    rewrite lookup_total_insert.
+    rewrite lookup_total_insert_eq.
     wp_smart_apply (lpop_spec with "Hl"); iIntros (v) "[HIx Hl]".
     wp_send with "[HIx]".
     { iDestruct "HIx" as (->) "$HIx". }
@@ -332,7 +332,7 @@ Section mapper_example.
     iIntros (vs) "!> HΓ /=".
     rewrite (lookup_delete_ne _ "n" "c")=> //.
     rewrite (lookup_delete_ne _ "n" "xs")=> //.
-    rewrite lookup_delete=> //.
+    rewrite lookup_delete_eq=> //.
     iDestruct (ctx_ltyped_cons _ _ "c" with "HΓ") as (vc ->) "[Hc HΓ]".
     iDestruct (ctx_ltyped_cons _ _ "xs" with "HΓ") as (vl ->) "[Hl HΓ]".
     iDestruct (ctx_ltyped_cons _ _ "f" with "HΓ") as (vf ->) "[Hf HΓ]".
@@ -366,7 +366,7 @@ Section mapper_example.
     iIntros (vs) "!> HΓ /=".
     rewrite (lookup_delete_ne _ "n" "c")=> //.
     rewrite (lookup_delete_ne _ "n" "xs")=> //.
-    rewrite (lookup_delete)=> //.
+    rewrite (lookup_delete_eq)=> //.
     iDestruct (ctx_ltyped_cons _ _ "c" with "HΓ") as (vc ->) "[Hc HΓ]".
     iDestruct (ctx_ltyped_cons _ _ "xs" with "HΓ") as (vl ->) "[Hl HΓ]".
     iDestruct (ctx_ltyped_cons _ _ "f" with "HΓ") as (vf ->) "[Hf HΓ]".

@@ -154,8 +154,8 @@ Section choice_example.
       iSplit.
       - iApply lty_le_recv; [iApply lty_le_refl | ].
         iApply lty_le_select_subseteq.
-        rewrite (insert_commute _ 2%Z 3%Z) //.
-        rewrite (insert_commute _ 1%Z 3%Z) //.
+        rewrite (insert_insert_ne _ 2%Z 3%Z) //.
+        rewrite (insert_insert_ne _ 1%Z 3%Z) //.
         by apply insert_subseteq.
       - rewrite big_sepM2_insert //. eauto. }
     (** Swap recv/select *)
@@ -182,21 +182,21 @@ Section choice_example.
         rewrite lookup_insert_ne in Hin2=> //.
         rewrite lookup_insert_ne in Hin2=> //. }
       destruct Hdisj2 as [-> | ->], Hdisj1 as [-> | ->].
-      - rewrite lookup_insert in Hin1.
-        rewrite lookup_insert in Hin2.
+      - rewrite lookup_insert_eq in Hin1.
+        rewrite lookup_insert_eq in Hin2.
         inversion Hin1; inversion Hin2; eauto.
-      - rewrite (insert_commute _ 1%Z 2%Z) in Hin1=> //.
-        rewrite lookup_insert in Hin1.
-        rewrite lookup_insert in Hin2.
+      - rewrite (insert_insert_ne _ 1%Z 2%Z) in Hin1=> //.
+        rewrite lookup_insert_eq in Hin1.
+        rewrite lookup_insert_eq in Hin2.
         inversion Hin1; inversion Hin2; eauto.
-      - rewrite (insert_commute _ 1%Z 2%Z) in Hin2=> //.
-        rewrite lookup_insert in Hin1.
-        rewrite lookup_insert in Hin2.
+      - rewrite (insert_insert_ne _ 1%Z 2%Z) in Hin2=> //.
+        rewrite lookup_insert_eq in Hin1.
+        rewrite lookup_insert_eq in Hin2.
         inversion Hin1; inversion Hin2; eauto.
-      - rewrite (insert_commute _ 1%Z 2%Z) in Hin1=> //.
-        rewrite (insert_commute _ 1%Z 2%Z) in Hin2=> //.
-        rewrite lookup_insert in Hin1.
-        rewrite lookup_insert in Hin2.
+      - rewrite (insert_insert_ne _ 1%Z 2%Z) in Hin1=> //.
+        rewrite (insert_insert_ne _ 1%Z 2%Z) in Hin2=> //.
+        rewrite lookup_insert_eq in Hin1.
+        rewrite lookup_insert_eq in Hin2.
         inversion Hin1; inversion Hin2; eauto. }
     (** Swap recv/send *)
     iApply (lty_le_trans _ prot4).
@@ -243,8 +243,8 @@ Section choice_example.
     rewrite big_sepM2_insert=> //. iSplit=> //.
     - iApply lty_le_send; [iApply lty_le_refl|].
       iApply lty_le_branch_subseteq.
-      rewrite (insert_commute _ 2%Z 3%Z) //.
-      rewrite (insert_commute _ 1%Z 3%Z) //.
+      rewrite (insert_insert_ne _ 2%Z 3%Z) //.
+      rewrite (insert_insert_ne _ 1%Z 3%Z) //.
       by apply insert_subseteq.
     - rewrite big_sepM2_insert=> //. eauto.
   Qed.
