@@ -20,6 +20,9 @@ Fixpoint group {A} `{EqDecision K} (ixs : list (K * A)) : list (K * list A) :=
 Global Instance: Params (@group_insert) 5 := {}.
 Global Instance: Params (@group) 3 := {}.
 
+(* Perhaps should be upstreamed, but not clear where: std++ or stdlib *)
+Global Instance: ∀ {A} (R : relation A), RewriteRelation (PermutationA R) := {}.
+
 Local Infix "≡ₚₚ" :=
   (PermutationA (prod_relation (=) (≡ₚ))) (at level 70, no associativity) : stdpp_scope.
 Notation "(≡ₚₚ)" := (PermutationA (prod_relation (=) (≡ₚ))) (only parsing) : stdpp_scope.
