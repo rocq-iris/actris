@@ -114,7 +114,7 @@ Definition iProto_mapsto_aux : seal (@iProto_mapsto_def). by eexists. Qed.
 Definition iProto_mapsto := iProto_mapsto_aux.(unseal).
 Definition iProto_mapsto_eq :
   @iProto_mapsto = @iProto_mapsto_def := iProto_mapsto_aux.(seal_eq).
-Arguments iProto_mapsto {_ _ _} _ _%proto.
+Arguments iProto_mapsto {_ _ _} _ _%_proto.
 Global Instance: Params (@iProto_mapsto) 5 := {}.
 Notation "c ↣ p" := (iProto_mapsto c p) (at level 20, format "c  ↣  p").
 
@@ -126,7 +126,7 @@ Definition iProto_choice {Σ} (a : action) (P1 P2 : iProp Σ)
     (p1 p2 : iProto Σ) : iProto Σ :=
   (<a @ (b : bool)> MSG #b {{ if b then P1 else P2 }}; if b then p1 else p2)%proto.
 Global Typeclasses Opaque iProto_choice.
-Arguments iProto_choice {_} _ _%I _%I _%proto _%proto.
+Arguments iProto_choice {_} _ _%_I _%_I _%_proto _%_proto.
 Global Instance: Params (@iProto_choice) 2 := {}.
 Infix "<{ P1 }+{ P2 }>" := (iProto_choice Send P1 P2) (at level 85) : proto_scope.
 Infix "<{ P1 }&{ P2 }>" := (iProto_choice Recv P1 P2) (at level 85) : proto_scope.
@@ -277,7 +277,7 @@ Section channel.
       iApply (lc_fupd_add_laterN with "[$]"); iNext.
       iMod ("Hcl" with "[- Hown HΦ]") as "[Hpair Hinv]".
       { iNext. iExists _, _. iFrame.
-        rewrite app_length cons_length nil_length.
+        rewrite length_app length_cons length_nil.
         iApply (tr_split); iFrame. }
       iModIntro; iFrame.
       iIntros "Hhandle".
@@ -410,7 +410,7 @@ Section channel.
         iNext. iExists _, _.
         iDestruct (is_chan_sym with "Hc24") as "Hc24".
         iFrame "Hc24 Hctx".
-        rewrite !app_length.
+        rewrite !length_app.
         iCombine "H⧗2 H⧗0" as "$".
         iCombine "H⧗4 H⧗1" as "$".
     - (* One Channel *)

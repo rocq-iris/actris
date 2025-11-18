@@ -14,6 +14,7 @@ Definition prog2 : expr :=
   send "c" #20;; send "c" #22;; send "c" #0;;
   assert: (recv "c" = #42).
 
+Section basicexamples.
 Context `{!heapGS Σ, !chanGS Σ}.
 
 Definition service_proto : iProto Σ :=
@@ -172,3 +173,4 @@ Proof.
   wp_load; wp_store; wp_pures.
   wp_send with "[$Hl]". by iApply "HΦ".
 Qed.
+End basicexamples.

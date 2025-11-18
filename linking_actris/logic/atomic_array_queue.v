@@ -329,7 +329,7 @@ Section queue_spec.
       rewrite dfrac_op_own /= Qp.half_half.
       iExists vs, []. iSplit; [done|]. iIntros "{$Hend}" (v) "Hend Hv /=".
       iExists γlh, start.
-      rewrite app_length /= !Nat.add_1_r !Nat.add_succ_r.
+      rewrite length_app /= !Nat.add_1_r !Nat.add_succ_r.
       iEval (replace (BUFFER + (start + length vs)%nat)%Z
         with ((BUFFER + start) + length vs)%Z by lia) in "Hv".
       rewrite array_app array_singleton Loc.add_assoc /=.
@@ -468,7 +468,7 @@ Section queue_spec.
     iSplitL "Hstart' Hlhptr'".
     { iExists _, 0. by iFrame. }
     iExists _, _, 0, (replicate SIZE #()).
-    rewrite replicate_length. auto with iFrame.
+    rewrite length_replicate. auto with iFrame.
   Qed.
 
   Lemma dequeue_spec lhptr :
@@ -674,7 +674,7 @@ Section queue_spec.
       rewrite left_id_L (comm_L (∪)) -union_difference_L; [|done].
       iMod "Hcl" as "HΦ".
       iModIntro. wp_store. iApply "HΦ". iExists γw, l, 1, (replicate (SIZE - 1) #()).
-      iFrame. rewrite replicate_length. auto with lia.
+      iFrame. rewrite length_replicate. auto with lia.
   Qed.
 
   Lemma link_queue_spec ltptr1 lhptr2:

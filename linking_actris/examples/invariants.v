@@ -3,6 +3,7 @@ From iris.program_logic Require Export atomic.
 From iris.base_logic.lib Require Import invariants token ghost_var.
 From linking_actris.logic Require Import proofmode.
 
+Section invariants.
 Context `{!heapGS Σ}.
 
 Definition incr : val :=
@@ -131,3 +132,4 @@ Proof.
   iSplitL "Hl"; first (unfold prog_7_inv; eauto with iFrame).
   by iApply "HΦ".
 Qed.
+End invariants.

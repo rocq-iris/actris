@@ -207,11 +207,11 @@ Section lqueue.
   Local Lemma flatten_insert_delete `{Countable A} m l (xs : list A) :
     flatten (<[l:=xs]> m) = list_to_set_disj xs ⊎ flatten (delete l m).
   Proof.
-    rewrite -insert_delete_insert. by apply flatten_insert, lookup_delete.
+    rewrite -insert_delete_eq. by apply flatten_insert, lookup_delete_eq.
   Qed.
   Local Lemma flatten_delete `{Countable A} m l (xs : list A) :
     m !! l = Some xs → flatten m = list_to_set_disj xs ⊎ flatten (delete l m).
-  Proof. apply :map_fold_delete_L; multiset_solver. Qed.
+  Proof. apply: map_fold_delete_L; multiset_solver. Qed.
 
   Local Lemma flatten_lookup `{Countable A} m (x : A) :
     x ∈ flatten m → ∃ k xs, m !! k = Some xs ∧ x ∈ xs.
@@ -219,7 +219,7 @@ Section lqueue.
     induction m as [|i xs m ? IH] using map_ind; [multiset_solver|].
     rewrite flatten_insert // gmultiset_elem_of_disj_union.
     intros [?%elem_of_list_to_set_disj|(k&xs'&?&?)%IH].
-    - exists i, xs. by rewrite lookup_insert.
+    - exists i, xs. by rewrite lookup_insert_eq.
     - exists k, xs'. by rewrite lookup_insert_ne; last naive_solver.
   Qed.
 
@@ -307,8 +307,8 @@ Section lqueue.
     apply gmultiset_singleton_subseteq_l in HLs.
     apply gmultiset_elem_of_disj_union in HLs as [HLs|HLs].
     - apply elem_of_list_to_set_disj in HLs.
-      apply elem_of_list_join in HLs
-        as (L & (L1&L2&->)%elem_of_list_split & [i Hi]%elem_of_list_lookup).
+      apply list_elem_of_join in HLs
+        as (L & (L1&L2&->)%list_elem_of_split & [i Hi]%list_elem_of_lookup).
       iDestruct (big_sepL_insert_acc with "HL") as "[Hvs HL]"; first done; simpl.
       iDestruct (lcycle_link with "Hvs")
         as "[(%vs & -> & -> & Hq)|Hvs]"; simplify_eq/=.
@@ -318,7 +318,7 @@ Section lqueue.
             with "[HL● Hlq]" as ">HL●".
           { iApply (own_update_2 with "HL● Hlq").
             apply auth_update_dealloc, gmultiset_local_update.
-            apply elem_of_list_split_length in Hi as (Ls1 & Ls2 & -> & ->).
+            apply list_elem_of_split_length in Hi as (Ls1 & Ls2 & -> & ->).
             rewrite insert_app_r_alt // Nat.sub_diag /=.
             rewrite !join_app /= !list_to_set_disj_app /=. multiset_solver. }
           iApply "Hclose". iModIntro. iFrame "HL● Hm● Hm". by iApply "HL". 
@@ -332,7 +332,7 @@ Section lqueue.
           with "[HL● Hlq]" as ">HL●".
         { iApply (own_update_2 with "HL● Hlq").
           apply auth_update_dealloc, gmultiset_local_update.
-          apply elem_of_list_split_length in Hi as (Ls1 & Ls2 & -> & ->).
+          apply list_elem_of_split_length in Hi as (Ls1 & Ls2 & -> & ->).
           rewrite insert_app_r_alt // Nat.sub_diag /=.
           rewrite !join_app /= !list_to_set_disj_app /=. multiset_solver. }
         iApply "Hclose". iModIntro. iFrame "HL● Hm● Hm".
@@ -342,7 +342,7 @@ Section lqueue.
         iSpecialize ("HL" with "(H Hq1 Hq2)").
         by rewrite list_insert_id.
     - iRight. apply flatten_lookup in HLs
-        as (l1 & ? & Hl1 & (L1&L2&->)%elem_of_list_split).
+        as (l1 & ? & Hl1 & (L1&L2&->)%list_elem_of_split).
       rewrite lookup_fmap fmap_Some in Hl1.
       destruct Hl1 as ([[l2 vs] ?]&Hl1&?); simplify_eq/=.
       iDestruct (big_sepM_insert_acc with "Hm") as "[Hvs Hm]"; first done; simpl.

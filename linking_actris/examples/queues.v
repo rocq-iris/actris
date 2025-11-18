@@ -2,6 +2,7 @@ From stdpp Require Import sorting.
 From iris.base_logic.lib Require Import invariants token ghost_var.
 From linking_actris.logic Require Import atomic_array_queue.
 
+Section queues.
 Context `{!heapGS Σ, !queueG Σ, time_receiptG Σ, !tokenG Σ, !ghost_varG Σ loc}.
 
 Definition prog_5 : expr :=
@@ -187,3 +188,4 @@ Proof.
     + iMod (token_exclusive with "Hγ2 Hγ2'") as %[].
     + iMod (token_exclusive with "Hγ2 Hγ2'") as %[].
 Qed.
+End queues.
