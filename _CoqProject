@@ -1,5 +1,6 @@
 -Q actris actris
 -Q multris multris
+-Q linear_actris linear_actris
 # We sometimes want to locally override notation, and there is no good way to do that with scopes.
 -arg -w -arg -notation-overridden
 # Cannot use non-canonical projections as it causes massive unification failures
@@ -65,3 +66,47 @@ multris/examples/basics.v
 multris/examples/two_buyer.v
 multris/examples/three_buyer.v
 multris/examples/leader_election.v
+
+linear_actris/prelude/prelude.v
+linear_actris/algebra/multiset.v
+linear_actris/lang/lang.v
+linear_actris/lang/metatheory.v
+linear_actris/lang/notation.v
+linear_actris/base_logic/linpred.v
+linear_actris/base_logic/miniprot.v
+linear_actris/base_logic/aprop.v
+linear_actris/base_logic/uforests.v
+linear_actris/base_logic/cgraph.v
+linear_actris/base_logic/wp_prim.v
+linear_actris/base_logic/wp.v
+linear_actris/base_logic/adequacy.v
+linear_actris/base_logic/proofmode.v
+linear_actris/session_logic/sub.v
+linear_actris/session_logic/sessions.v
+linear_actris/session_logic/imp.v
+linear_actris/session_logic/tele_imp.v
+linear_actris/session_logic/proofmode.v
+linear_actris/examples/assert.v
+linear_actris/examples/tour.v
+linear_actris/examples/prots.v
+linear_actris/examples/llist.v
+linear_actris/examples/basics.v
+linear_actris/examples/compare.v
+linear_actris/examples/sort.v
+linear_actris/examples/sort_br_del.v
+linear_actris/examples/sort_fg.v
+linear_actris/examples/list_rev.v
+linear_actris/logrel/model.v
+linear_actris/logrel/telescopes.v
+linear_actris/logrel/subtyping.v
+linear_actris/logrel/contexts.v
+linear_actris/logrel/term_types.v
+linear_actris/logrel/session_types.v
+linear_actris/logrel/operators.v
+linear_actris/logrel/term_typing_judgment.v
+linear_actris/logrel/subtyping_rules.v
+linear_actris/logrel/term_typing_rules.v
+linear_actris/logrel/session_typing_rules.v
+linear_actris/logrel/examples/pair.v
+linear_actris/logrel/examples/rec_subtyping.v
+linear_actris/logrel/examples/compute_service.v
