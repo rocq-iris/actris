@@ -337,15 +337,15 @@ Section proto.
     destruct (proto_case p) as [|(a&m&?)]; [by left|right].
     by exists a, (IMsg m).
   Qed.
-  Lemma iProto_message_equivI `{!BiInternalEq SPROP} a1 a2 m1 m2 :
+  Lemma iProto_message_equivI `{!Sbi SPROP} a1 a2 m1 m2 :
     (<a1> m1) ≡ (<a2> m2) ⊣⊢@{SPROP} ⌜ a1 = a2 ⌝ ∧
       (∀ v lp, iMsg_car m1 v lp ≡ iMsg_car m2 v lp).
   Proof. rewrite iProto_message_eq. apply proto_message_equivI. Qed.
 
-  Lemma iProto_message_end_equivI `{!BiInternalEq SPROP} a m :
+  Lemma iProto_message_end_equivI `{!Sbi SPROP} a m :
     (<a> m) ≡ END ⊢@{SPROP} False.
   Proof. rewrite iProto_message_eq iProto_end_eq. apply proto_message_end_equivI. Qed.
-  Lemma iProto_end_message_equivI `{!BiInternalEq SPROP} a m :
+  Lemma iProto_end_message_equivI `{!Sbi SPROP} a m :
     END ≡ (<a> m) ⊢@{SPROP} False.
   Proof. by rewrite internal_eq_sym iProto_message_end_equivI. Qed.
 
@@ -486,7 +486,7 @@ Section proto.
 
   Global Instance iProto_dual_involutive : Involutive (≡) (@iProto_dual Σ V).
   Proof.
-    intros p. apply (uPred.internal_eq_soundness (M:=iResUR Σ)).
+    intros p. apply (internal_eq_soundness (PROP:=iProp Σ)).
     iLöb as "IH" forall (p). destruct (iProto_case p) as [->|(a&m&->)].
     { by rewrite !iProto_dual_end. }
     rewrite !iProto_dual_message involutive.
@@ -540,7 +540,7 @@ Section proto.
 
   Global Instance iProto_app_end_r : RightId (≡) END (@iProto_app Σ V).
   Proof.
-    intros p. apply (uPred.internal_eq_soundness (M:=iResUR Σ)).
+    intros p. apply (internal_eq_soundness (PROP:=iProp Σ)).
     iLöb as "IH" forall (p). destruct (iProto_case p) as [->|(a&m&->)].
     { by rewrite left_id. }
     rewrite iProto_app_message.
@@ -554,7 +554,7 @@ Section proto.
   Qed.
   Global Instance iProto_app_assoc : Assoc (≡) (@iProto_app Σ V).
   Proof.
-    intros p1 p2 p3. apply (uPred.internal_eq_soundness (M:=iResUR Σ)).
+    intros p1 p2 p3. apply (internal_eq_soundness (PROP:=iProp Σ)).
     iLöb as "IH" forall (p1). destruct (iProto_case p1) as [->|(a&m&->)].
     { by rewrite !left_id. }
     rewrite !iProto_app_message.
@@ -571,7 +571,7 @@ Section proto.
   Lemma iProto_dual_app p1 p2 :
     iProto_dual (p1 <++> p2) ≡ iProto_dual p1 <++> iProto_dual p2.
   Proof.
-    apply (uPred.internal_eq_soundness (M:=iResUR Σ)).
+    apply (internal_eq_soundness (PROP:=iProp Σ)).
     iLöb as "IH" forall (p1 p2). destruct (iProto_case p1) as [->|(a&m&->)].
     { by rewrite iProto_dual_end !left_id. }
     rewrite iProto_dual_message !iProto_app_message iProto_dual_message /=.
@@ -810,7 +810,7 @@ Section proto.
       iDestruct 1 as (x) "Hm2".
       iApply (iProto_le_recv_send_inv with "H Hm1 Hm2").
   Qed.
-  Lemma iProto_le_exist_elim_r_inhabited `{Hinh : Inhabited A} p (m : A → iMsg Σ V) :
+  Lemma iProto_le_exist_elim_r_inhabited `{!Inhabited A} p (m : A → iMsg Σ V) :
     (∀ x, p ⊑ (<!> m x)) ⊢
     p ⊑ (<! x> m x).
   Proof.
