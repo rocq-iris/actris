@@ -3,25 +3,25 @@ The state of the repository at the time of publication can be found at
 
 ## Examples
 
-The examples can be found in the directory [theories/examples](../theories/examples).
+The examples can be found in the directory [actris/examples](../actris/examples).
 
 The following list gives a mapping between the examples in the paper and their
 mechanization in Coq:
 
-Introduction: [theories/examples/basics.v](../theories/examples/basics.v)
+Introduction: [actris/examples/basics.v](../actris/examples/basics.v)
 Tour of Actris
-  - Basics: [theories/examples/sort.v](../theories/examples/sort.v)
-  - Higher-Order Functions: [theories/examples/sort.v](../theories/examples/sort.v)
-  - Choice: [theories/examples/sort_br_del.v](../theories/examples/sort_br_del.v)
-  - Recursion: [theories/examples/sort_br_del.v](../theories/examples/sort_br_del.v)
-  - Delegation: [theories/examples/sort_br_del.v](../theories/examples/sort_br_del.v)
-  - Dependent: [theories/examples/sort_fg.v](../theories/examples/sort_fg.v)
+  - Basics: [actris/examples/sort.v](../actris/examples/sort.v)
+  - Higher-Order Functions: [actris/examples/sort.v](../actris/examples/sort.v)
+  - Choice: [actris/examples/sort_br_del.v](../actris/examples/sort_br_del.v)
+  - Recursion: [actris/examples/sort_br_del.v](../actris/examples/sort_br_del.v)
+  - Delegation: [actris/examples/sort_br_del.v](../actris/examples/sort_br_del.v)
+  - Dependent: [actris/examples/sort_fg.v](../actris/examples/sort_fg.v)
 Manifest sharing via locks
-  - Sample program: [theories/examples/basics.v](../theories/examples/basics.v)
-  - Distributed mapper: [theories/examples/par_map.v](../theories/examples/par_map.v)
+  - Sample program: [actris/examples/basics.v](../actris/examples/basics.v)
+  - Distributed mapper: [actris/examples/par_map.v](../actris/examples/par_map.v)
 Case study: map reduce:
-  - Utilities for shuffling/grouping: [theories/utils/group.v](../theories/utils/group.v)
-  - Implementation and verification: [theories/examples/map_reduce.v](../theories/examples/map_reduce.v)
+  - Utilities for shuffling/grouping: [actris/utils/group.v](../actris/utils/group.v)
+  - Implementation and verification: [actris/examples/map_reduce.v](../actris/examples/map_reduce.v)
 
 ## Differences between the formalization and the paper
 

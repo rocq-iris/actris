@@ -10,15 +10,15 @@ The following list gives a mapping between the additional examples in the
 paper and their mechanization in Coq:
 
 Introduction
-  - Swapping program: [theories/examples/basics.v](../theories/examples/basics.v)
+  - Swapping program: [actris/examples/basics.v](../actris/examples/basics.v)
 Subprotocols
-  - Basics: [theories/examples/subprotocols.v](../theories/examples/subprotocols.v)
-  - Mapper: [theories/examples/swap_mapper.v](../theories/examples/swap_mapper.v)
-  - List reversal: [theories/examples/list_rev.v](../theories/examples/list_rev.v)
-  - Löb recursion: [theories/examples/subprotocols.v](../theories/examples/subprotocols.v)
+  - Basics: [actris/examples/subprotocols.v](../actris/examples/subprotocols.v)
+  - Mapper: [actris/examples/swap_mapper.v](../actris/examples/swap_mapper.v)
+  - List reversal: [actris/examples/list_rev.v](../actris/examples/list_rev.v)
+  - Löb recursion: [actris/examples/subprotocols.v](../actris/examples/subprotocols.v)
 Mechanization
-  - Program: [theories/examples/basics.v](../theories/examples/basics.v)
-  - Subprotocol: [theories/examples/list_rev.v](../theories/examples/list_rev.v)
+  - Program: [actris/examples/basics.v](../actris/examples/basics.v)
+  - Subprotocol: [actris/examples/list_rev.v](../actris/examples/list_rev.v)
 
 ## Differences between the formalization and the paper
 

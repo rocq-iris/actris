@@ -19,13 +19,13 @@ In order to build, install the above dependencies and then run
 ## Theory of Actris
 
 The theory of Actris (semantics of channels, the model, and the proof rules)
-can be found in the directory [theories/channel](theories/channel).
+can be found in the directory [actris/channel](actris/channel).
 The individual types contain the following:
 
-- [theories/channel/proto_model.v](theories/channel/proto_model.v): The
+- [actris/channel/proto_model.v](actris/channel/proto_model.v): The
   construction of the model of dependent separation protocols as the solution of
   a recursive domain equation.
-- [theories/channel/proto.v](theories/channel/proto.v): The instantiation of
+- [actris/channel/proto.v](actris/channel/proto.v): The instantiation of
   protocols with the Iris logic, definition of `iProto_own` for channel endpoint
   ownership, and lemmas corresponding to the Actris proof rules.
   The relevant definitions and proof rules are as follows:
@@ -33,7 +33,7 @@ The individual types contain the following:
   + `iProto_message`: The constructor for sends and receives.
   + `iProto_end`: The constructor for terminated protocols.
   + `iProto_le`: The subprotocol relation for protocols (notation `⊑`).
-- [theories/channel/channel.v](theories/channel/channel.v): The encoding of
+- [actris/channel/channel.v](actris/channel/channel.v): The encoding of
   bidirectional channels in terms of Iris's HeapLang language, with specifications
   defined in terms of the dependent separation protocols.
   The relevant definitions and proof rules are as follows:
@@ -117,62 +117,62 @@ Concretely, the normalization performs the following actions:
   `ProtoUnfold prot1 prot2`. When defining a recursive protocol, it is
   useful to define a `ProtoUnfold` instance to obtain automatic unfolding
   of the recursive protocol. For example, see `sort_protocol_br_unfold` in
-  [theories/examples/sort_br_del.v](theories/examples/sort_br_del.v).
+  [actris/examples/sort_br_del.v](actris/examples/sort_br_del.v).
 
 [HeapLang]: https://gitlab.mpi-sws.org/iris/iris/blob/master/HeapLang.md
 [ProofMode]: https://gitlab.mpi-sws.org/iris/iris/blob/master/ProofMode.md
-[ActrisProofMode]: theories/channel/proofmode.v
+[ActrisProofMode]: actris/channel/proofmode.v
 
 ## Semantic Session Type System
 
 The logical relation for type safety of a semantic session type system is contained
-in the directory [theories/logrel](theories/logrel).
+in the directory [actris/logrel](actris/logrel).
 The logical relation is defined across the following files:
 
-- [theories/logrel/model.v](theories/logrel/model.v): Definition of the
+- [actris/logrel/model.v](actris/logrel/model.v): Definition of the
   notions of a semantic term type and a semantic session type in terms of
   unary Iris predicates (on values) and Actris protocols, respectively. Also
   provides the required Coq definitions for creating recursive term/session
   types.
-- [theories/logrel/term_types.v](theories/logrel/term_types.v): Definitions
+- [actris/logrel/term_types.v](actris/logrel/term_types.v): Definitions
   of the following semantic term types: basic types (integers, booleans, unit),
   sums, products, copyable/affine functions, universally and existentially
   quantified types, unique/shared references, and session-typed channels.
-- [theories/logrel/session_types.v](theories/logrel/session_types.v):
+- [actris/logrel/session_types.v](actris/logrel/session_types.v):
   Definitions of the following semantic session types: sending and receiving
   with session polymorphism, n-ary choice. Session type duality is also
   defined here. Recursive session types can be defined using the mechanism
-  defined in [theories/logrel/model.v](theories/logrel/model.v).
-- [theories/logrel/operators.v](theories/logrel/operators.v):
+  defined in [actris/logrel/model.v](actris/logrel/model.v).
+- [actris/logrel/operators.v](actris/logrel/operators.v):
   Type definitions of unary and binary operators.
-- [theories/logrel/contexts.v](theories/logrel/contexts.v):
+- [actris/logrel/contexts.v](actris/logrel/contexts.v):
   Definition of the semantic type contexts, which is used in the semantic
   typing relation. This also contains the rules for updating the context,
   which is used for distributing affine resources across the
   various parts of the proofs inside the typing rules.
-- [theories/logrel/term_typing_judgment.v](theories/logrel/term_typing_judgment.v):
+- [actris/logrel/term_typing_judgment.v](actris/logrel/term_typing_judgment.v):
   Definition of the semantic typing relation, as well as the proof of type
   soundness, showing that semantically well-typed programs do not get stuck.
-- [theories/logrel/subtyping.v](theories/logrel/subtyping.v):
+- [actris/logrel/subtyping.v](actris/logrel/subtyping.v):
   Definition of the semantic subtyping relation for both term and session types.
   This file also defines the notion of copyability of types in terms of subtyping.
-- [theories/logrel/subtyping_rules.v](theories/logrel/subtyping_rules.v):
+- [actris/logrel/subtyping_rules.v](actris/logrel/subtyping_rules.v):
   Subtyping rules for term types and session types.
-- [theories/logrel/term_typing_rules.v](theories/logrel/term_typing_rules.v):
+- [actris/logrel/term_typing_rules.v](actris/logrel/term_typing_rules.v):
   Semantic typing lemmas (typing rules) for the semantic term types.
-- [theories/logrel/session_typing_rules.v](theories/logrel/session_typing_rules.v):
+- [actris/logrel/session_typing_rules.v](actris/logrel/session_typing_rules.v):
   Semantic typing lemmas (typing rules) for the semantic session types.
-- [theories/logrel/napp.v](theories/logrel/napp.v):
+- [actris/logrel/napp.v](actris/logrel/napp.v):
   Definition of session types iteratively being appended to themselves a finite
   number of times, with support for swapping e.g. a send over an arbitrary number
   of receives.
 
 An extension to the basic type system is given in
-[theories/logrel/lib/mutex.v](theories/logrel/lib/mutex.v), which defines
+[actris/logrel/lib/mutex.v](actris/logrel/lib/mutex.v), which defines
 mutexes as a type-safe abstraction. Mutexes are implemented using spin locks
 and allow one to gain exclusive ownership of resources shared between multiple
 threads. An encoding of a list type is found in
-[theories/logrel/lib/mutex.v](theories/logrel/lib/mutex.v), along with axillary
+[actris/logrel/lib/mutex.v](actris/logrel/lib/mutex.v), along with axillary
 lemmas, and a weakest precondition for `llength`,
 that converts ownership of a list type into a list reference predicate, with
 the values of the list made explicit.

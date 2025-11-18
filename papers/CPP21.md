@@ -4,7 +4,7 @@ The state of the repository at the time of submission can be found at
 # Code corresponding to the paper
 
 All code corresponding to the paper can be found in the directory
-[theories/logrel](../theories/logrel). The file [README.md](../README.md)
+[actris/logrel](../actris/logrel). The file [README.md](../README.md)
 contains an overview of the files in that directory.
 
 # Differences between the paper and the mechanisation
@@ -25,7 +25,7 @@ contains an overview of the files in that directory.
   flag, as it makes mechanisation easier.
 - The mechanisation employs a typing judgement for values (`ltyped_val`),
   for technical reasons. More details on this is found in
-  [theories/logrel/term_typing_judgment.v](../theories/logrel/term_typing_judgment.v)
+  [actris/logrel/term_typing_judgment.v](../actris/logrel/term_typing_judgment.v)
 - Minor simplifications have been made for the displayed Coq code of Section 5,
   such as assuming that implicit variables (e.g., `{!heapG Σ}`) are available from
   a `Context`, rather than as implicits variables of the definitions.
@@ -35,20 +35,20 @@ contains an overview of the files in that directory.
 # Examples
 
 - The compute service example in Section 3 can be found in
-  [theories/logrel/examples/compute_service.v](../theories/logrel/examples/compute_service.v)
+  [actris/logrel/examples/compute_service.v](../actris/logrel/examples/compute_service.v)
   The program recursively receive computation requests, which it computes and
   then send back. It is entirely type checked with the rules of the type system
 - The parallel receive example in Section 4 can be found in
-  [theories/logrel/examples/par_recv.v](../theories/logrel/examples/par_recv.v):
+  [actris/logrel/examples/par_recv.v](../actris/logrel/examples/par_recv.v):
   This program performs two "racy" parallel receives on the same channel from
   two different threads, using locks to allow the channel to be shared.
 - The parallel compute client example in Section 4 can be found in
-  [theories/logrel/examples/compute_client_list.v](../theories/logrel/examples/compute_client_list.v):
+  [actris/logrel/examples/compute_client_list.v](../actris/logrel/examples/compute_client_list.v):
   This program sends computation requests and receives their results in parallel,
   analogous to the producer-consumer pattern. It uses a lock to share the channel
   and a shared counter, that keeps track of the number of computations in transit.
   The computation service can be found in
-  [theories/logrel/examples/compute_service.v](../theories/logrel/examples/compute_service.v).
+  [actris/logrel/examples/compute_service.v](../actris/logrel/examples/compute_service.v).
   The definition of the list type and the weakest precondition for `llength`
-  can be found in [theories/logrel/lib/list.v](../theories/logrel/lib/list.v)
+  can be found in [actris/logrel/lib/list.v](../actris/logrel/lib/list.v)
   It is type checked using a manual typing proof.
