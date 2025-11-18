@@ -1,6 +1,8 @@
 -Q actris actris
 -Q multris multris
 -Q linear_actris linear_actris
+-Q linking_actris linking_actris
+
 # We sometimes want to locally override notation, and there is no good way to do that with scopes.
 -arg -w -arg -notation-overridden
 # Cannot use non-canonical projections as it causes massive unification failures
@@ -110,3 +112,22 @@ linear_actris/logrel/session_typing_rules.v
 linear_actris/logrel/examples/pair.v
 linear_actris/logrel/examples/rec_subtyping.v
 linear_actris/logrel/examples/compute_service.v
+
+linking_actris/logic/pairing.v
+linking_actris/logic/time_receipts.v
+linking_actris/logic/atomic_simple_queue.v
+linking_actris/logic/atomic_array_queue.v
+linking_actris/logic/atomic_lqueue.v
+linking_actris/logic/atomic_channel.v
+linking_actris/logic/proto.v
+linking_actris/logic/channel.v
+linking_actris/logic/adequacy.v
+linking_actris/logic/proofmode.v
+
+linking_actris/examples/introduction.v
+linking_actris/examples/basicexamples.v
+linking_actris/examples/insertionsort_all.v
+linking_actris/examples/insertionsort_one.v
+linking_actris/examples/queues.v
+linking_actris/examples/invariants.v
+linking_actris/examples/higherorder.v
