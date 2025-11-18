@@ -2,6 +2,7 @@
 -Q multris multris
 -Q linear_actris linear_actris
 -Q linking_actris linking_actris
+-Q mini_actris mini_actris
 
 # We sometimes want to locally override notation, and there is no good way to do that with scopes.
 -arg -w -arg -notation-overridden
@@ -131,3 +132,10 @@ linking_actris/examples/insertionsort_one.v
 linking_actris/examples/queues.v
 linking_actris/examples/invariants.v
 linking_actris/examples/higherorder.v
+
+mini_actris/base.v
+mini_actris/sub.v
+mini_actris/session.v
+mini_actris/imp.v
+mini_actris/send_close.v
+mini_actris/sym_close.v
