@@ -1,7 +1,7 @@
 (** This file provides utility functions for grouping association lists based on
 their keys, as well as basic theorems about them. *)
 From stdpp Require Export prelude.
-From Stdlib Require Export SetoidPermutation.
+From Coq Require Export SetoidPermutation.
 
 Fixpoint group_insert {A} `{EqDecision K} (i : K) (x : A)
     (ixss : list (K * list A)) : list (K * list A) :=
