@@ -165,7 +165,7 @@ Section cgraph.
 
       assert (edge g ν2 v); eauto using some_edge_L.
       apply HH.
-      eapply rtc_transitive; eapply rtc_once; [left|right]; eauto.
+      eapply rtc_trans; eapply rtc_once; [left|right]; eauto.
     Qed.
   End general.
 
@@ -520,7 +520,7 @@ Section cgraph.
     Proof.
       intros He Hc.
       induction Hc; try reflexivity.
-      eapply rtc_transitive; eauto.
+      eapply rtc_trans; eauto.
       eapply rtc_once.
       destruct H0;[left|right]; eauto using cgraph_equiv_edge.
     Qed.
@@ -627,7 +627,7 @@ Section cgraph.
       assert (ν2 ≠ v3); eauto using no_self_edge'.
       assert (v3 ≠ ν1); eauto using no_self_edge'.
       destruct H1,H2,H3; eapply delete_edge_uconn; eauto;
-      eapply rtc_transitive; eapply rtc_once;
+      eapply rtc_trans; eapply rtc_once;
       try (solve [left; eapply edge_delete_edge; eauto] ||
            solve [right; eapply edge_delete_edge; eauto]).
       - left. eapply edge_delete_edge; eauto.
@@ -763,7 +763,7 @@ Section cgraph.
         assert (edge g ν1 v3); eauto using some_edge_L.
         assert (edge g ν2 v3); eauto using some_edge_L.
         apply Hν12.
-        eapply rtc_transitive; eapply rtc_once;[left|right]; eauto.
+        eapply rtc_trans; eapply rtc_once;[left|right]; eauto.
     Qed.
 
     Lemma move_edge_wf g ν1 ν2 v3 :
@@ -808,7 +808,7 @@ Section cgraph.
       uconn (delete_edge g w1 w2) ν1 ν2 → uconn g ν1 ν2.
     Proof.
       intros HH. induction HH; try reflexivity.
-      eapply rtc_transitive; eauto. eapply rtc_once.
+      eapply rtc_trans; eauto. eapply rtc_once.
       destruct H0; [left|right]; eauto using edge_delete_edge'''.
     Qed.
 
@@ -824,7 +824,7 @@ Section cgraph.
       apply insert_edge_wf; eauto using delete_edge_wf.
       assert (¬ uconn g v3 ν2).
       { intro. apply Hν12.
-        eapply rtc_transitive; eauto.
+        eapply rtc_trans; eauto.
         eapply rtc_once. left. eauto using some_edge_L. }
       intro. apply delete_edge_preserves_not_uconn in H1.
       apply H0. symmetry. done.
@@ -946,7 +946,7 @@ Section cgraph.
                 destruct (out_edges g ν2 !! i0) eqn:E; eauto; simpl.
                 exfalso.
                 apply Hnuconn.
-                eapply rtc_transitive; eapply rtc_once; [left|right];
+                eapply rtc_trans; eapply rtc_once; [left|right];
                 eauto using some_edge_L.
              ++ erewrite move_edge_out_edges; eauto.
                 repeat case_decide; simplify_eq. done.
