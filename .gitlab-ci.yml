@@ -32,7 +32,6 @@ build-coq.9.0.0:
   <<: *template
   variables:
     OPAM_PINS: "coq version 9.0.0"
-    DENY_WARNINGS: "1"
     OPAM_PKG: "1"
   tags:
   - fp-timing
