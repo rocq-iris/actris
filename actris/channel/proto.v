@@ -1074,18 +1074,18 @@ Section proto.
     iApply (iProto_le_trans with "[Hp''] H2"); simpl. by iApply iProto_le_base.
   Qed.
 
-  Lemma iProto_interp_recv v vsl vsr pl mr :
-    iProto_interp vsl (v :: vsr) pl (<?> mr) -∗
-    ∃ pr, iMsg_car mr v (Next pr) ∗ ▷ iProto_interp vsl vsr pl pr.
+  Lemma iProto_interp_recv v vsl vsr ml pr :
+    iProto_interp (v :: vsl) vsr (<?> ml) pr -∗
+    ∃ pl', iMsg_car ml v (Next pl') ∗ ▷ iProto_interp vsl vsr pl' pr.
   Proof.
     iDestruct 1 as (p) "[Hp Hdp] /=".
-    iDestruct (iProto_le_recv_inv with "Hdp") as (m) "[#Hm Hpr]".
+    iDestruct (iProto_le_recv_inv with "Hp") as (m) "[#Hm Hpl]".
     iDestruct (iProto_message_equivI with "Hm") as (_) "{Hm} #Hm".
-    iDestruct ("Hpr" $! v (iProto_app_recvs vsr (iProto_dual p)) with "[]")
-      as (pr'') "[Hler Hpr]".
-    { iRewrite -("Hm" $! v (Next (iProto_app_recvs vsr (iProto_dual p)))).
+    iDestruct ("Hpl" $! v (iProto_app_recvs vsl p) with "[]")
+      as (pl'') "[Hlel Hpl]".
+    { iRewrite -("Hm" $! v (Next (iProto_app_recvs vsl p))).
       rewrite iMsg_base_eq; auto. }
-    iExists pr''. iIntros "{$Hpr} !>". iExists p. iFrame.
+    iExists pl''. iIntros "{$Hpl} !>". iExists p. iFrame.
   Qed.
 
   Lemma iProto_ctx_sym γl γr vsl vsr :
@@ -1156,11 +1156,10 @@ Section proto.
     iDestruct (iProto_own_auth_agree with "H●l H◯") as "#Hp".
     iDestruct (iProto_interp_le_l with "Hinterp [Hle]") as "Hinterp".
     { iIntros "!>". by iRewrite "Hp". }
-    iDestruct (iProto_interp_sym with "Hinterp") as "Hinterp".
     iDestruct (iProto_interp_recv with "Hinterp") as (q) "[Hm Hinterp]".
     iMod (iProto_own_auth_update _ _ _ q with "H●l H◯") as "[H●l H◯]".
     iIntros "!> !> /=". iExists q. iFrame "Hm". iSplitR "H◯".
-    - iExists q, pr. iFrame. by iApply iProto_interp_sym.
+    - iExists q, pr. iFrame.
     - iExists q. iIntros "{$H◯} !>". iApply iProto_le_refl.
   Qed.
 
