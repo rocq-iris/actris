@@ -15,8 +15,8 @@ In this file we define the three message-passing connectives:
 - [new_chan] creates references to two empty buffers and a lock, and returns a
   pair of endpoints, where the order of the two references determines the
   polarity of the endpoints.
-- [send] takes an endpoint and adds an element to the first buffer.
-- [recv] performs a busy loop until there is something in the second buffer,
+- [send] takes an endpoint and adds an element to the second buffer.
+- [recv] performs a busy loop until there is something in the first buffer,
   which it pops and returns, locking during each peek.
 
 It is additionaly shown that the channel ownership [c ↣ prot] is closed under
@@ -48,14 +48,14 @@ Definition send : val :=
     let: "l" := Fst (Fst "c") in
     let: "r" := Snd (Fst "c") in
     acquire "lk";;
-    lsnoc "l" "v";;
+    lsnoc "r" "v";;
     release "lk".
 
 Definition try_recv : val :=
   λ: "c",
     let: "lk" := Snd "c" in
     acquire "lk";;
-    let: "l" := Snd (Fst "c") in
+    let: "l" := Fst (Fst "c") in
     let: "ret" := if: lisnil "l" then NONE else SOME (lpop "l") in
     release "lk";; "ret".
 
@@ -245,7 +245,7 @@ Section channel.
     wp_smart_apply (acquire_spec with "Hlk"); iIntros "[Hlkd Hinv]".
     iDestruct "Hinv" as (vsl vsr) "(Hl & Hr & #Hlbl & #Hlbr & Hctx)".
     wp_pures. wp_bind (lsnoc _ _).
-    iApply (wp_step_fupdN_lb with "Hlbr [Hctx H]"); [done| |].
+    iApply (wp_step_fupdN_lb with "Hlbl [Hctx H]"); [done| |].
     { iApply fupd_mask_intro; [set_solver|]. simpl.
       iIntros "Hclose !>!>".
       iMod (iProto_send with "Hctx H []") as "[Hctx H]".
@@ -255,13 +255,13 @@ Section channel.
       iIntros "!>". iMod "Hclose".
       iCombine ("Hctx H") as "H".
       iExact "H". }
-    iApply (wp_lb_update with "Hlbl").
-    wp_smart_apply (lsnoc_spec with "[$Hl //]"); iIntros "Hl".
-    iIntros "#Hlbl' [Hctx H] !>".
+    iApply (wp_lb_update with "Hlbr").
+    wp_smart_apply (lsnoc_spec with "[$Hr //]"); iIntros "Hr".
+    iIntros "#Hlbr' [Hctx H] !>".
     wp_smart_apply (release_spec with "[Hl Hr Hctx $Hlk $Hlkd]").
-    { iExists (vsl ++ [v]), vsr.
+    { iExists vsl, (vsr ++ [v]).
       rewrite length_app /=.
-      replace (length vsl + 1) with (S (length vsl)) by lia.
+      replace (length vsr + 1) with (S (length vsr)) by lia.
       iFrame "#∗". }
     iIntros "_". iApply "HΦ". iExists γl, γr, γlk. eauto 10 with iFrame.
   Qed.
@@ -292,17 +292,17 @@ Section channel.
     iDestruct "Hc" as (γl γr γlk l r lk ->) "[#Hlk H]"; wp_pures.
     wp_smart_apply (acquire_spec with "Hlk"); iIntros "[Hlkd Hinv]".
     iDestruct "Hinv" as (vsl vsr) "(Hl & Hr & #Hlbl & #Hlbr & Hctx)".
-    wp_smart_apply (lisnil_spec with "Hr"); iIntros "Hr".
-    destruct vsr as [|vr vsr]; wp_pures.
+    wp_smart_apply (lisnil_spec with "Hl"); iIntros "Hl".
+    destruct vsl as [|vl vsl]; wp_pures.
     - wp_smart_apply (release_spec with "[Hl Hr Hctx $Hlk $Hlkd]").
       { unfold iProto_lock_inv; by eauto with iFrame. }
       iIntros "_". wp_pures. iModIntro. iApply "HΦ". iLeft. iSplit; [done|].
       iExists γl, γr, γlk. eauto 10 with iFrame.
-    - wp_smart_apply (lpop_spec with "Hr"); iIntros (v') "[% Hr]"; simplify_eq/=.
+    - wp_smart_apply (lpop_spec with "Hl"); iIntros (v') "[% Hl]"; simplify_eq/=.
       iMod (iProto_recv with "Hctx H") as (q) "(Hctx & H & Hm)". wp_pures.
       rewrite iMsg_base_eq.
       iDestruct (iMsg_texist_exist with "Hm") as (x <-) "[Hp HP]".
-      iDestruct (steps_lb_le _ (length vsr) with "Hlbr") as "#Hlbr'"; [lia|].
+      iDestruct (steps_lb_le _ (length vsl) with "Hlbl") as "#Hlbl'"; [lia|].
       wp_smart_apply (release_spec with "[Hl Hr Hctx $Hlk $Hlkd]").
       { unfold iProto_lock_inv; by eauto with iFrame. }
       iIntros "_". wp_pures. iModIntro. iApply "HΦ".

@@ -40,7 +40,7 @@ Local Definition proto_pairing `{!heapGS Σ, !chanG Σ}
     ⧗{γtr} (length vs1) ∗
     ⧗{γtr} (length vs2) ∗
     is_chan γl cγ1.1 cγ2.1 vs1 vs2 ∗
-    iProto_ctx cγ1.2 cγ2.2 vs2 vs1.
+    iProto_ctx cγ1.2 cγ2.2 vs1 vs2.
 
 Local Instance proto_pairing_pairpred `{!heapGS Σ, !chanG Σ} γl γtr :
   PairPred (proto_pairing γl γtr).

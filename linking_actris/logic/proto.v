@@ -119,8 +119,8 @@ Section proto.
   Lemma iProto_interp_join vs2from1 vs1from2 p p2 vs4from3 vs3from4 p4 :
     iProto_interp vs2from1 vs1from2 p p2 -∗
     iProto_interp vs4from3 vs3from4 (iProto_dual p) p4 -∗
-    ▷^(length vs1from2 + length vs3from4)
-     iProto_interp (vs4from3 ++ vs1from2) (vs2from1 ++ vs3from4) p2 p4.
+    ▷^(length vs2from1 + length vs4from3)
+     iProto_interp (vs1from2 ++ vs4from3) (vs3from4 ++ vs2from1) p2 p4.
   Proof.
     iIntros "Hinterp12 Hinterp34".
     iDestruct (iProto_interp_sym with "Hinterp12") as "Hinterp21".
@@ -148,8 +148,8 @@ Section proto.
     iProto_ctx γp3 γp4 vs4from3 vs3from4 -∗
     iProto_own γp1 p -∗
     iProto_own γp3 (iProto_dual p) ==∗
-    ▷^(length vs1from2 + length vs3from4)
-      iProto_ctx γp2 γp4 (vs4from3 ++ vs1from2) (vs2from1 ++ vs3from4).
+    ▷^(length vs2from1 + length vs4from3)
+      iProto_ctx γp2 γp4 (vs1from2 ++ vs4from3) (vs3from4 ++ vs2from1).
   Proof.
     iIntros "Hctx1 Hctx3 Hown1 Hown3". unfold iProto_ctx, iProto_own.
     iDestruct "Hctx1" as (p1 p2) "(H●1 & $ & Hinterp12)".
