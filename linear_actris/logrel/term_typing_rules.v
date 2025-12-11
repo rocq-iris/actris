@@ -147,7 +147,7 @@ Section term_typing_rules.
     iIntros "!>" (w) "HA2". iFrame.
   Qed.
 
-  Lemma ltyped_lam Γ1 Γ2 x e A1 A2 :                                             (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=35979126 *)
+  Lemma ltyped_lam Γ1 Γ2 x e A1 A2 :                                             (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=35979126 *)
     (ctx_cons x A1 Γ1 ⊨ e : A2 ⫤ []) -∗
     Γ1 ++ Γ2 ⊨ (λ: x, e) : A1 ⊸ A2 ⫤ Γ2.
   Proof.

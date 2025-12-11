@@ -3,20 +3,20 @@ From linear_actris.session_logic Require Import proofmode.
 Import TImp TImp.notations.
 
 
-Lemma subprot1 :                                                                 (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=14a31259 *)
+Lemma subprot1 :                                                                 (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=14a31259 *)
   ⊢ (<!(x:nat)> MSG #x ; <?> MSG #(x+1); END?) ⊑ (<!> MSG #1 ; <?> MSG #2; END?).
 Proof.
   by iExists 1.
 Qed.
 
-Lemma subprot2 :                                                                 (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=30f6f4f6 *)
+Lemma subprot2 :                                                                 (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=30f6f4f6 *)
   ⊢ (<?> MSG #1 ; <!> MSG #2; END?) ⊑ (<?(x:nat)> MSG #x ; <!> MSG #(x+1); END?).
 Proof.
   by iExists 1.
 Qed.
 
 
-Lemma subprot3 (p1 p2 : prot) v P :                                              (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=3f0ccb95 *)
+Lemma subprot3 (p1 p2 : prot) v P :                                              (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=3f0ccb95 *)
   p1 ⊑ p2 ⊢ (<!> MSG #v {{ P }} ; p1) ⊑ (<!> MSG #v {{ P }} ; p2).
 Proof.
   iIntros "H".
@@ -33,7 +33,7 @@ Proof.
 Qed.
 
 
-Lemma subprot5 (p : prot) v P1 P2 :                                              (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=fa8801ea *)
+Lemma subprot5 (p : prot) v P1 P2 :                                              (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=fa8801ea *)
   (P1 -∗ P2) ⊢ (<!> MSG #v {{ P2 }} ; p) ⊑ (<!> MSG #v {{ P1 }} ; p).
 Proof.
   iIntros "H12".
@@ -50,7 +50,7 @@ Proof.
 Qed.
 
 
-Fixpoint prot_fin n : prot :=                                                    (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=f24fb92c *)
+Fixpoint prot_fin n : prot :=                                                    (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=f24fb92c *)
   match n with
   | 0 => END!
   | S n' => <!> MSG #n' ; prot_fin n'
@@ -64,7 +64,7 @@ Instance prot_inf_aux_contractive :
   Contractive prot_inf_aux.
 Proof. solve_prot_contractive. Qed.
 
-Definition prot_inf : nat → prot :=                                              (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=be55cac3 *)
+Definition prot_inf : nat → prot :=                                              (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=be55cac3 *)
     fixpoint prot_inf_aux.
 
 
@@ -75,7 +75,7 @@ Instance prot_inf_res_aux_contractive :
   Contractive prot_inf_res_aux.
 Proof. solve_prot_contractive. Qed.
 
-Definition prot_inf_res : nat → prot :=                                          (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=1eafa6d8 *)
+Definition prot_inf_res : nat → prot :=                                          (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=1eafa6d8 *)
     fixpoint prot_inf_res_aux.
 
 
@@ -86,5 +86,5 @@ Instance prot_service_aux_contractive :
   Contractive prot_service_aux.
 Proof. solve_prot_contractive. Qed.
 
-Definition prot_service : prot :=                                                (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=97520ca2 *)
+Definition prot_service : prot :=                                                (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=97520ca2 *)
     fixpoint prot_service_aux.

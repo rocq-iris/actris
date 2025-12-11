@@ -26,7 +26,7 @@ Inductive bin_op :=
   | ShiftLOp | ShiftROp (* Shifts *)
   | LeOp | LtOp | EqOp. (* Relations *)
 
-Inductive expr :=                                                                (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=47a4f2ee *)
+Inductive expr :=                                                                (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=47a4f2ee *)
   (* Values *)
   | Val (v : val)
   (* Base lambda calculus *)

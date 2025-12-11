@@ -10,7 +10,7 @@ Declare Scope lmsg_scope.
 Delimit Scope lmsg_scope with lmsg.
 Bind Scope lmsg_scope with lmsg.
 
-Definition lty_msg_base (A : ltty) (S : lsty) : lmsg :=                          (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=ecea186d *)
+Definition lty_msg_base (A : ltty) (S : lsty) : lmsg :=                          (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=ecea186d *)
   (∃ v, MSG v {{ ltty_car A v }} ; (lsty_car S))%msg.
 
 Definition lty_msg_exist {k} (M : lty k → lmsg) : lmsg :=

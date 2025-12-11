@@ -12,7 +12,7 @@ From linear_actris.logrel Require Export term_types contexts.
 From iris.proofmode Require Import proofmode.
 
 (** The semantic typing judgment *)
-Definition ltyped (Γ1 Γ2 : ctx) (e : expr) (A : ltty) : aProp :=                 (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=4440cd06 *)
+Definition ltyped (Γ1 Γ2 : ctx) (e : expr) (A : ltty) : aProp :=                 (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=4440cd06 *)
   tc_opaque (■ ∀ vs, ctx_ltyped vs Γ1 -∗
     WP subst_map vs e {{ v, ltty_car A v ∗ ctx_ltyped vs Γ2 }})%I.
 
@@ -84,7 +84,7 @@ Section ltyped_val.
   Qed.
 End ltyped_val.
 
-Lemma ltyped_soundness e σ :                                                     (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=d4c86e7d *)
+Lemma ltyped_soundness e σ :                                                     (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=d4c86e7d *)
   ([] ⊨ e : any ⫤ []) →
   steps ([e],∅) σ →
   global_progress σ (* deadlock and leak freedom *) ∧

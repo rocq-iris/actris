@@ -114,7 +114,7 @@ Section sort_fg_inner.
     ProtUnfold (sort_fg_head_prot xs) (sort_fg_head_prot_aux sort_fg_head_prot xs).
   Proof. apply prot_unfold_eq, (fixpoint_unfold sort_fg_head_prot_aux). Qed.
 
-  Definition sort_fg_prot : prot := sort_fg_head_prot [].                        (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=d154ada6 *)
+  Definition sort_fg_prot : prot := sort_fg_head_prot [].                        (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=d154ada6 *)
 
   Lemma sort_service_fg_split_spec c c1 c2 xs xs1 xs2 :
     {{{ c ↣ dual (sort_fg_head_prot xs) ∗
