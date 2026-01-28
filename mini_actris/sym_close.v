@@ -1,5 +1,4 @@
-From iris.algebra Require Import excl.
-From iris.base_logic.lib Require Import invariants.
+From iris.base_logic.lib Require Import invariants token.
 From mini_actris Require Export sub.
 
 Definition new : val := new1.
@@ -15,21 +14,24 @@ Section sym_close_proofs.
   Let N := nroot .@ "chan".
   Notation prot := (prot Σ).
 
+  (* We break abstraction and use the [tokenG] from [chanG] *)
+  Local Existing Instance chan_tokG.
+
   Definition prot' : ofe := optionO prot.                                        (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=6466b725 *)
 
   Definition end_inv (γ1 γ2 : gname) (l : loc) : iProp Σ :=                      (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=3c5fffb4 *)
     l ↦ NONEV ∨
-    (l ↦ SOMEV #() ∗ (tok γ1 ∨ tok γ2)) ∨
-    (tok γ1 ∗ tok γ2).
+    (l ↦ SOMEV #() ∗ (token γ1 ∨ token γ2)) ∨
+    (token γ1 ∗ token γ2).
 
   Lemma end_inv_iff γ1 γ2 l : end_inv γ1 γ2 l ⊣⊢ end_inv γ2 γ1 l.
   Proof.
-    by rewrite /end_inv (bi.or_comm (tok γ1) (tok γ2))
-       (bi.sep_comm (tok γ1) (tok γ2)).
+    by rewrite /end_inv (bi.or_comm (token γ1) (token γ2))
+       (bi.sep_comm (token γ1) (token γ2)).
   Qed.
 
   Definition is_end (ch : val) : iProp Σ :=
-    ∃ γ1 γ2 (l : loc), ▷ ⌜ch = #l⌝ ∗ inv N (end_inv γ1 γ2 l) ∗ ▷ tok γ1.
+    ∃ γ1 γ2 (l : loc), ▷ ⌜ch = #l⌝ ∗ inv N (end_inv γ1 γ2 l) ∗ ▷ token γ1.
 
   Definition is_chan' (ch : val) (p : prot') :=                                  (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=afded129 *)
     from_option (is_chan ch) (is_end ch) p.
@@ -49,9 +51,9 @@ Section sym_close_proofs.
     - wp_cmpxchg_fail. iModIntro. iSplitL "Htok H2".
       + iModIntro. unfold end_inv.
         iDestruct "H2" as "[H2|H2]"; last eauto with iFrame.
-        iDestruct (own_valid_2 with "Htok H2") as %[].
+        iCombine "Htok H2" gives %[].
       + wp_pures. wp_free. iModIntro. by iApply "HΨ".
-    - iDestruct (own_valid_2 with "Htok H1") as %[].
+    - iCombine "Htok H1" gives %[].
   Qed.
 
   (* ?x <v> {P}. p *)
@@ -69,8 +71,8 @@ Section sym_close_proofs.
   Proof.
     iIntros (Φ) "_ HΦ".
     wp_lam. wp_alloc l as "Hl".
-    iMod (own_alloc (Excl ())) as (γ1) "Hγ1"; first done.
-    iMod (own_alloc (Excl ())) as (γ2) "Hγ2"; first done.
+    iMod token_alloc as (γ1) "Hγ1".
+    iMod token_alloc as (γ2) "Hγ2".
     iMod (inv_alloc N _ (end_inv γ1 γ2 l) with "[Hl]") as "#?"; [by iLeft|].
     iApply "HΦ".
     iSplitL "Hγ1".

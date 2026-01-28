@@ -311,7 +311,7 @@ Module TImp.
   Proof.
     rewrite msg_exist_unseal msg_prot_unseal /subprot /=.
     destruct (prot_action p); [eauto|].
-    - iIntros "H". by unshelve iSpecialize ("H" $! inhabitant).
+    - iIntros "H". by iSpecialize ("H" $! inhabitant).
     - iIntros "H %w (%vp2 & %c & -> & [%x ?] & ?)".
       iApply "H". eauto 10 with iFrame.
   Qed.
@@ -322,7 +322,7 @@ Module TImp.
     destruct (prot_action p); [eauto|].
     - iIntros "H %w (%vp2 & %c & -> & [%x ?] & ?)".
       iApply "H". eauto 10 with iFrame.
-    - iIntros "H". by unshelve iSpecialize ("H" $! inhabitant).
+    - iIntros "H". by iSpecialize ("H" $! inhabitant).
   Qed.
 
   Lemma subprot_exist_intro_l {A} (m : A → msg) a :

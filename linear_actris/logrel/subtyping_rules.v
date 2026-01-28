@@ -257,18 +257,12 @@ Section subtyping_rules.
   Lemma lty_le_exist_elim_l k (M : lty k → lmsg) S :
     (∀ (A : lty k), (<??> M A) <: S) ⊢
     (<?? (A : lty k)> M A) <: S.
-  Proof.
-    iIntros "#Hle !>".
-    unshelve iApply subprot_exist_elim_l_inhabited; [by apply _|by auto].
-  Qed.
+  Proof. iIntros "#Hle !>". iApply subprot_exist_elim_l_inhabited; by auto. Qed.
 
   Lemma lty_le_exist_elim_r k (M : lty k → lmsg) S :
     (∀ (A : lty k), S <: (<!!> M A)) ⊢
     S <: (<!! (A : lty k)> M A).
-  Proof.
-    iIntros "#Hle !>".
-    unshelve iApply subprot_exist_elim_r_inhabited; [by apply _|by auto].
-  Qed.
+  Proof. iIntros "#Hle !>". iApply subprot_exist_elim_r_inhabited; by auto. Qed.
 
   Lemma lty_le_exist_intro_l k (M : lty k → lmsg) (A : lty k) :
     (<!! X> M X) <: (<!!> M A).

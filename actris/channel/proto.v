@@ -784,8 +784,7 @@ Section proto.
   Proof.
     rewrite iMsg_exist_eq. iIntros "H".
     destruct (iProto_case p) as [Heq | [a [m' Heq]]].
-    - unshelve iSpecialize ("H" $!inhabitant); first by apply _.
-      rewrite Heq.
+    - iSpecialize ("H" $!inhabitant). rewrite Heq.
       iDestruct (iProto_le_end_inv_l with "H") as "H".
       rewrite iProto_end_eq iProto_message_eq.
       iDestruct (proto_message_end_equivI with "H") as "[]".
@@ -816,8 +815,7 @@ Section proto.
   Proof.
     rewrite iMsg_exist_eq. iIntros "H".
     destruct (iProto_case p) as [Heq | [a [m' Heq]]].
-    - unshelve iSpecialize ("H" $!inhabitant); first by apply _.
-      rewrite Heq.
+    - iSpecialize ("H" $!inhabitant). rewrite Heq.
       iDestruct (iProto_le_end_inv_r with "H") as "H".
       rewrite iProto_end_eq iProto_message_eq.
       iDestruct (proto_message_end_equivI with "H") as "[]".

@@ -1,5 +1,4 @@
-From iris.algebra Require Import excl.
-From iris.base_logic.lib Require Import invariants.
+From iris.base_logic.lib Require Import invariants token.
 From iris.heap_lang Require Export proofmode notation.
 From iris.heap_lang.lib Require Import assert.
 
@@ -13,9 +12,9 @@ Definition recv1 : val :=                                                       
 Definition send1 : val := λ: "l" "v",                                            (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=f5ebc56f *)
     "l" <- SOME ("v").
 
-Class chanG Σ := LockG { chan_tokG : inG Σ (exclR unitO) }.
+Class chanG Σ := LockG { chan_tokG : tokenG Σ }.
 Local Existing Instance chan_tokG.
-Definition chanΣ : gFunctors := #[GFunctor (exclR unitO)].
+Definition chanΣ : gFunctors := #[tokenΣ].
 Global Instance subG_chanΣ {Σ} : subG chanΣ Σ → chanG Σ.
 Proof. solve_inG. Qed.
 
@@ -26,17 +25,15 @@ Section proof_base.
   Let N := nroot .@ "chan".
   Notation prot := (prot Σ).
 
-  Definition tok (γ : gname) : iProp Σ := own γ (Excl ()).
-
   Definition chan_inv (γ1 γ2 : gname) (l : loc)                                  (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=de8d955e *)
                       (Φ : val → iProp Σ) : iProp Σ :=
     (l ↦ NONEV) ∨
-    (∃ v, l ↦ SOMEV v ∗ tok γ1 ∗ Φ v) ∨
-    (tok γ1 ∗ tok γ2).
+    (∃ v, l ↦ SOMEV v ∗ token γ1 ∗ Φ v) ∨
+    (token γ1 ∗ token γ2).
 
   Definition is_chan0 (ch : val) (p : prot) : iProp Σ :=                         (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=2239f976 *)
     ∃ γ1 γ2 (l : loc),
-      ▷ ⌜ch = #l⌝ ∗ inv N (chan_inv γ1 γ2 l p.2) ∗ ▷ tok (if p.1 then γ1 else γ2).
+      ▷ ⌜ch = #l⌝ ∗ inv N (chan_inv γ1 γ2 l p.2) ∗ ▷ token (if p.1 then γ1 else γ2).
 
   Definition dual (p : prot) : prot := (negb p.1, p.2).                          (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=5cc878c4 *)
 
@@ -44,8 +41,8 @@ Section proof_base.
     l ↦ NONEV -∗ |={⊤}=> is_chan0 #l p ∗ is_chan0 #l (dual p).
   Proof.
     iIntros "Hl".
-    iMod (own_alloc (Excl ())) as (γ1) "Hγ1"; first done.
-    iMod (own_alloc (Excl ())) as (γ2) "Hγ2"; first done.
+    iMod token_alloc as (γ1) "Hγ1".
+    iMod token_alloc as (γ2) "Hγ2".
     iMod (inv_alloc N _ (chan_inv γ1 γ2 l p.2) with "[Hl]") as "#?"; [by iLeft|].
     destruct p as [[]?]; [iSplitL "Hγ1"|iSplitL "Hγ2"];
       iExists _, _; by eauto with iFrame.
@@ -65,7 +62,7 @@ Section proof_base.
     iIntros (φ) "[(%γ1 & %γ2 & %l & >-> & #Hinv & >Htok) HP] Hφ /=".
     wp_lam; wp_pures.
     iInv N as "[Hl|[(%w & Hl & >Htok' & HΦ')|>[Htok' Htok'']]]";
-      [|iDestruct (own_valid_2 with "Htok Htok'") as %[]..].
+      [|iCombine "Htok Htok'" gives %[]..].
     wp_store. iSplitR "Hφ"; last by iApply "Hφ".
     rewrite /chan_inv; eauto 10 with iFrame.
   Qed.
@@ -81,7 +78,7 @@ Section proof_base.
     - wp_load. iModIntro. iSplitL "Htok Htok'".
       + rewrite /chan_inv. by eauto with iFrame.
       + wp_match. wp_free. wp_seq. iModIntro. by iApply "Hφ".
-    - iDestruct (own_valid_2 with "Htok Htok''") as %[].
+    - iCombine "Htok Htok''" gives %[].
   Qed.
 
   Lemma dual_dual p : dual (dual p) = p.                                         (* https://apndx.org/pub/mpy9/miniactris.pdf#nameddest=c5318bd3 *)
