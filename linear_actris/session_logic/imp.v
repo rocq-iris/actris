@@ -1,7 +1,7 @@
 From linear_actris.session_logic Require Export sessions.
 
 Module Imp.
-  Definition fork_chan : val := λ: "f",                                          (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=f0b10cb3 *)
+  Definition fork_chan : val := λ: "f",                                          (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=f0b10cb3 *)
     Alloc $ Ses.fork_chan (λ: "c2", "f" (Alloc "c2")).
 
   Definition recv : val := λ: "c",
@@ -48,7 +48,7 @@ Module Imp.
     iSplit; [done|]. iFrame. by iApply (Ses.own_chan_subprot with "Hch").
   Qed.
 
-  Lemma wp_fork_chan p (f : val) :                                               (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=a3e914ff *)
+  Lemma wp_fork_chan p (f : val) :                                               (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=a3e914ff *)
     ▷ (∀ c, c ↣ dual p -∗ WP f c {{ _, emp }}) -∗
     WP fork_chan f {{ c, c ↣ p }}.
   Proof.

@@ -9,7 +9,7 @@ Module Sub.
   Definition recv : val := λ: "c", Recv "c".
   Definition send : val := λ: "c" "x", Send "c" "x".
 
-  Definition subprot (p1 p2 : aMiniProt) : aProp :=                              (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=923fd1fb *)
+  Definition subprot (p1 p2 : aMiniProt) : aProp :=                              (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=923fd1fb *)
     match prot_action p1, prot_action p2 with
     | ASend, ASend => ∀ v, p2 v -∗ p1 v
     | ARecv, ARecv => ∀ v, p1 v -∗ p2 v

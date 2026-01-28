@@ -1,7 +1,7 @@
 From linear_actris.lang Require Import metatheory.
 From linear_actris.base_logic Require Export wp_prim.
 
-Local Definition wp_def (e : expr) (Φ : val → aProp) : aProp :=                  (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=2d06e885 *)
+Local Definition wp_def (e : expr) (Φ : val → aProp) : aProp :=                  (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=2d06e885 *)
   ∀ R, ▷?(bool_decide (to_val e = None)) R -∗
        wp_prim e (λ v, Φ v ∗ R).
 Local Definition wp_aux : seal (@wp_def). Proof. by eexists. Qed.
@@ -41,7 +41,7 @@ Proof. rewrite wp_unseal. solve_proper. Qed.
 Global Instance is_except_0_wp e Φ : IsExcept0 (WP e {{ Φ }}).
 Proof. rewrite /IsExcept0 wp_unseal /wp_def. by iIntros ">H". Qed.
 
-Lemma wp_val Φ v : Φ v ⊢ WP (Val v) {{ Φ }}.                                     (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=6f2876ab *)
+Lemma wp_val Φ v : Φ v ⊢ WP (Val v) {{ Φ }}.                                     (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=6f2876ab *)
 Proof.
   rewrite wp_unseal /wp_def /=.
   iIntros "HΦ %R HR /=". iApply wp_prim_val. iFrame.
@@ -111,7 +111,7 @@ Proof.
   iIntros (w) "[Hwp HR]". iApply "Hwp". by iNext.
 Qed.
 
-Lemma wp_send l v Φ :                                                            (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=50f52fc1 *)
+Lemma wp_send l v Φ :                                                            (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=50f52fc1 *)
   own_chan l (MiniProt ASend Φ) -∗ ▷ Φ v -∗
   WP Send (Val (LitV (LitLoc l))) (Val v) {{ v, ⌜⌜ v = LitV LitUnit ⌝⌝ }}.
 Proof.
@@ -137,7 +137,7 @@ Proof.
   iApply wp_prim_fork. by iFrame.
 Qed.
 
-Lemma wp_alloc v :                                                               (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=1b8cb023 *)
+Lemma wp_alloc v :                                                               (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=1b8cb023 *)
   ⊢ WP Alloc (Val v) {{ w, ∃ l, ⌜⌜ w = LitV (LitLoc l) ⌝⌝ ∗ l ↦ v }}.
 Proof.
   rewrite wp_unseal /wp_def. iIntros "%R HR".

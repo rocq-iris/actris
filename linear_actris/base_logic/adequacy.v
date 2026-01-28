@@ -32,7 +32,7 @@ Proof.
     rewrite /aProp_at. by iRewrite -"Hinv".
 Qed.
 
-Lemma inv_initialization e :                                                     (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=f3656312 *)
+Lemma inv_initialization e :                                                     (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=f3656312 *)
   aProp_at (WP e {{ _, emp }}) ∅ ⊢ inv ([e],∅).
 Proof.
   rewrite wp_wp_prim (inv_unfold 0) //.
@@ -45,7 +45,7 @@ Proof.
   - rewrite lookup_empty /= aProp_at_affinely aProp_at_pure. auto.
 Qed.
 
-Lemma inv_preservation σ1 σ2 :                                                   (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=a6d9c0c5 *)
+Lemma inv_preservation σ1 σ2 :                                                   (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=a6d9c0c5 *)
   step σ1 σ2 →
   inv σ1 ⊢ ▷ inv σ2.
 Proof.
@@ -266,7 +266,7 @@ Definition global_progress (σ : cfg) :=
 Definition all_progress_or_blocked (σ : cfg) :=
   Forall (λ e', is_Some (to_val e') ∨ reducible_or_blocked e' σ.2) σ.1.
 
-Lemma inv_global_progress σ :                                                    (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=8ac7bdcb *)
+Lemma inv_global_progress σ :                                                    (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=8ac7bdcb *)
   inv σ ⊢ ▷ ⌜ global_progress σ ⌝.
 Proof.
   destruct (final_or_active σ) as [?|[o ?]].
@@ -274,7 +274,7 @@ Proof.
   - iIntros "Hinv". iRight. by iApply inv_active_progress.
 Qed.
 
-Lemma inv_safety σ :                                                             (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=f8ccbcb5 *)
+Lemma inv_safety σ :                                                             (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=f8ccbcb5 *)
   inv σ ⊢ ▷ ⌜ all_progress_or_blocked σ ⌝.
 Proof.
   iIntros "Hinv". rewrite /all_progress_or_blocked Forall_forall.
@@ -287,7 +287,7 @@ Proof.
   rewrite /reducible_or_blocked; destruct Hred as [?|(?&?&?&?)]; eauto.
 Qed.
 
-Lemma adequacy e σ :                                                             (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=a026d91e *)
+Lemma adequacy e σ :                                                             (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=a026d91e *)
   (⊢ WP e {{ _, emp }}) →
   steps ([e],∅) σ →
   global_progress σ (* deadlock and leak freedom *) ∧

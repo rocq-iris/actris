@@ -5,7 +5,7 @@ From linear_actris.base_logic Require Import cgraph.
 
 Definition inEdges := multiset aEdge.
 
-Local Definition thread_inv_pre                                                  (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=148d1b60 *)
+Local Definition thread_inv_pre                                                  (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=148d1b60 *)
     (wp_prim : expr → (val → aProp) → aProp)
     (me : option expr) (ins : inEdges) : aProp :=
   match me with
@@ -24,7 +24,7 @@ Definition heap_val_inv (hv : option heap_val) (ins : inEdges) : aProp :=
   end.
 Global Instance: Params (@heap_val_inv) 1 := {}.
 
-Definition ginv (f : obj → inEdges → outEdges → siProp) : siProp :=              (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=599d07fc *)
+Definition ginv (f : obj → inEdges → outEdges → siProp) : siProp :=              (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=599d07fc *)
   ∃ g : cgraph obj aEdge,
     ⌜ cgraph_wf g ⌝ ∧ ∀ ν, f ν (in_labels g ν) (out_edges g ν).
 
@@ -45,7 +45,7 @@ Global Instance reducible_or_blocked_own_ne e h n :
   Proper (dist n ==> iff) (reducible_or_blocked_own e h).
 Proof. intros Σ1 Σ2 HΣ; split; by eapply reducible_or_blocked_own_impl_ne. Qed.
 
-Local Definition inv'_pre (wp_prim : expr → (val → aProp) → aProp)               (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=01cdf805 *)
+Local Definition inv'_pre (wp_prim : expr → (val → aProp) → aProp)               (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=01cdf805 *)
                           (σ : cfg) (tid : nat) (Σtid : outEdges) : siProp :=
   ginv (λ ν ins Σ,
     match ν with
@@ -57,7 +57,7 @@ Local Definition inv'_pre (wp_prim : expr → (val → aProp) → aProp)        
     | Chan l => aProp_at (heap_val_inv (σ.2 !! l) ins) Σ
     end%I).
 
-Definition wp_prim_pre (wp_prim : expr -d> (val -d> aProp) -d> aProp) :          (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=a668d5e6 *)
+Definition wp_prim_pre (wp_prim : expr -d> (val -d> aProp) -d> aProp) :          (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=a668d5e6 *)
     expr -d> (val -d> aProp) -d> aProp := λ e Φ,
   match to_val e with
   | Some v => ◇ Φ v

@@ -41,7 +41,7 @@ Module Type aProp_solution_sig.
   Parameter aProp_unfold_fold: ∀ P : aPrePropO, aProp_unfold (aProp_fold P) ≡ P.
 End aProp_solution_sig.
 
-Module Export aProp_solution : aProp_solution_sig.                               (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=0925cda4 *)
+Module Export aProp_solution : aProp_solution_sig.                               (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=0925cda4 *)
   Import cofe_solver.
 
   Definition aResURF :=
@@ -72,12 +72,12 @@ Definition excl_outEdges (Σ : outEdges) : aResUR :=
 Global Typeclasses Opaque excl_outEdges.
 Global Instance: Params (@excl_outEdges) 0 := {}.
 
-Definition aProp_own (Σ : outEdges) : aProp :=                                   (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=db08d7fe *)
+Definition aProp_own (Σ : outEdges) : aProp :=                                   (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=db08d7fe *)
   linPred_own (excl_outEdges Σ).
 Global Typeclasses Opaque aProp_own.
 Global Instance: Params (@aProp_own) 0 := {}.
 
-Definition own_chan_def (l : loc) (p : aMiniProt) : aProp :=                     (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=7298b435 *)
+Definition own_chan_def (l : loc) (p : aMiniProt) : aProp :=                     (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=7298b435 *)
   aProp_own {[ Chan l := inr p ]}.
 Local Definition own_chan_aux : seal (@own_chan_def). Proof. by eexists. Qed.
 Definition own_chan := own_chan_aux.(unseal).

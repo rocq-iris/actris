@@ -200,7 +200,7 @@ Module TImp.
   Proof. solve_proper. Qed.
 
   (** ** Dual *)
-  Lemma dual_end a P : dual (END@a {{ P }}) ≡ (END@(action_dual a) {{ P }})%prot. (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=b266599b *)
+  Lemma dual_end a P : dual (END@a {{ P }}) ≡ (END@(action_dual a) {{ P }})%prot. (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=b266599b *)
   Proof. rewrite end_prot_unseal. done. Qed.
   Lemma dual_msg a m : dual (<a> m) ≡ (<action_dual a> msg_dual m)%prot.
   Proof.

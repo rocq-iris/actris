@@ -5,7 +5,7 @@ From linear_actris.prelude Require Export prelude.
 Inductive action := ASend | ARecv.
 Canonical Structure actionO := leibnizO action.
 
-Record miniprot (V PROP : Type) := MiniProt {                                    (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=736af260 *)
+Record miniprot (V PROP : Type) := MiniProt {                                    (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=736af260 *)
   prot_action : action;
   prot_pred :> V → PROP;
 }.

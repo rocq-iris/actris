@@ -174,7 +174,7 @@ Section sort.
     rewrite dual_end. wp_close. by iApply "HΨ".
   Qed.
 
-  Lemma sort_client_func_spec {A} (I : A → val → aProp) R                        (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=77e4516f *)
+  Lemma sort_client_func_spec {A} (I : A → val → aProp) R                        (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=77e4516f *)
        `{!RelDecision R, !Total R} cmp l (xs : list A) :
     cmp_spec I R cmp -∗
     {{{ llist I l xs }}}

@@ -11,7 +11,7 @@ Section session_typing_rules.
   Implicit Types S T : lsty.
   Implicit Types Γ : ctx.
 
-  Lemma ltyped_fork_chan Γ1 Γ2 S f :                                             (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=406e6468 *)
+  Lemma ltyped_fork_chan Γ1 Γ2 S f :                                             (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=406e6468 *)
     (Γ2 ⊨ f : chan (lty_dual S) ⊸ any ⫤ []) -∗
     Γ1 ++ Γ2 ⊨ fork_chan f : chan S ⫤ Γ1.
   Proof.

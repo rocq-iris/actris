@@ -5,7 +5,7 @@ having both [A <: B] and [B <: A]. Finally, the notion of a *copyable type* is
 defined in terms of subtyping: a type [A] is copyable when [A <: copy A]. *)
 From linear_actris.logrel Require Export model term_types.
 
-Definition lty_le {k} : lty k → lty k → aProp :=                                 (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=8bfdc0d8 *)
+Definition lty_le {k} : lty k → lty k → aProp :=                                 (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=8bfdc0d8 *)
   match k with
   | tty_kind => λ A1 A2, ■ ∀ v, ltty_car A1 v -∗ ltty_car A2 v
   | sty_kind => λ P1 P2, ■ (lsty_car P1 ⊑ lsty_car P2)

@@ -37,7 +37,7 @@ From linear_actris.logrel Require Export model.
 Definition lty_unit : ltty := Ltty (λ w, ⌜⌜ w = #() ⌝⌝%I).
 Definition lty_bool : ltty := Ltty (λ w, ∃ b : bool, ⌜⌜ w = #b ⌝⌝)%I.
 Definition lty_int : ltty := Ltty (λ w, ∃ n : Z, ⌜⌜ w = #n ⌝⌝)%I.
-Definition lty_any : ltty := Ltty (λ w, emp%I).                                  (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=7109ff19 *)
+Definition lty_any : ltty := Ltty (λ w, emp%I).                                  (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=7109ff19 *)
 
 Definition lty_arr (A1 A2 : ltty) : ltty := Ltty (λ w,
   ∀ v,  ▷ ltty_car A1 v -∗ WP w v {{ ltty_car A2 }})%I.

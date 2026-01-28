@@ -41,7 +41,7 @@ Section compute_example.
     compute_service_type ≡ compute_service_type_aux (compute_service_type).
   Proof. apply fixpoint_unfold. Qed.
 
-  Lemma ltyped_compute_service Γ :                                               (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=ca007d94 *)
+  Lemma ltyped_compute_service Γ :                                               (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=ca007d94 *)
     Γ ⊨ compute_service : lty_chan compute_service_type ⊸ any ⫤ Γ.
   Proof.
     iApply (ltyped_subsumption_alt);

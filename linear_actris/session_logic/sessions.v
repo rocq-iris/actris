@@ -20,11 +20,11 @@ Module Ses.
   Notation subprot_dual := Sub.subprot_dual.
   Notation own_chan_subprot := Sub.own_chan_subprot.
 
-  Definition end_prot (a : action) (P : aProp) : prot :=                         (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=5973985d *)
+  Definition end_prot (a : action) (P : aProp) : prot :=                         (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=5973985d *)
     MiniProt a (λ r, ⌜⌜ r = #() ⌝⌝ ∗ P)%I.
   Global Instance: Params (@end_prot) 1 := {}.
 
-  Definition msg_prot (a : action) {A}                                           (* https://apndx.org/pub/icnp/linear_actris.pdf#nameddest=423aeac8 *)
+  Definition msg_prot (a : action) {A}                                           (* https://apndx.org/pub/icnp/dlfactris.pdf#nameddest=423aeac8 *)
       (v : A → val) (P : A → aProp) (p : A → prot) : prot :=
     MiniProt a (λ r, ∃ x c,
       ⌜⌜ r = (v x, c)%V ⌝⌝ ∗ P x ∗
