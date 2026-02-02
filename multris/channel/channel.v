@@ -169,10 +169,10 @@ Section channel.
         iIntros "!>" (i ? HSome') "(Hauth & Hfrag & Hown)".
         assert (i < length ps) as Hle.
         { by apply lookup_lt_is_Some_1. }
-        rewrite !lookup_total_app_l; [|lia..]. iFrame. }
+        rewrite !lookup_total_app_l; [|done|lia]. iFrame. }
       rewrite Nat.add_0_r.
       simpl. rewrite right_id_L.
-      rewrite !lookup_total_app_r; [|lia..]. rewrite !Hlen.
+      rewrite !lookup_total_app_r; [|done|lia]. rewrite !Hlen.
       rewrite Nat.sub_diag. simpl. iFrame.
       iDestruct "Hp" as "[$ _]". }
     iMod "H" as (γEs Hlen) "H".
