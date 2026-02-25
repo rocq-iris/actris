@@ -504,6 +504,7 @@ Section instances.
     - iIntros (Pi Qi x) "_ H //".
     - iIntros (A Φi x) "_ H //".
     - iIntros (Pi x) "/="; auto.
+    - iIntros (Pi x) "/="; auto.
     - iIntros (Pi x) "/= _ (%x1 & %x2 & ? & ? & ?) //".
     - iIntros (P) "/="; auto.
     - iIntros (P) "/="; auto.
@@ -538,10 +539,6 @@ Section instances.
   Global Instance linPred_sbi_emp_valid_exist :
     SbiEmpValidExist linPredI.
   Proof. iIntros (A Φ). unseal. iIntros "[%a H] /=". by iExists a. Qed.
-
-  Global Instance linPred_bi_persistently_impl_si_pure :
-    BiPersistentlyImplSiPure linPredI.
-  Proof. iIntros (A Φ). unseal. iIntros (x) "_ H //". Qed.
 End instances.
 
 Module Export linPred.
