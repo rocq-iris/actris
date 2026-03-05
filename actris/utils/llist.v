@@ -2,7 +2,7 @@
 mutable linked-lists. It comes with a small library of operations (head, pop,
 lookup, length, append, prepend, snoc, split). *)
 From iris.heap_lang Require Export proofmode notation.
-From iris.heap_lang Require Import assert.
+From iris.heap_lang Require Import assert unwrap.
 
 (**  *)
 Fixpoint llist `{heapGS Σ} {A} (I : A → val → iProp Σ)
@@ -23,24 +23,17 @@ Definition lisnil : val := λ: "l",
   end.
 
 Definition lhead : val := λ: "l",
-  match: !"l" with
-    SOME "p" => Fst "p"
-  | NONE => assert: #false
-  end.
+  Fst (unwrap !"l").
 
 Definition lpop : val := λ: "l",
-  match: !"l" with
-    SOME "p" => "l" <- !(Snd "p");; Fst "p"
-  | NONE => assert: #false
-  end.
+  let: "p" := unwrap !"l" in
+  "l" <- !(Snd "p");; Fst "p".
 
 Definition llookup : val :=
   rec: "go" "l" "n" :=
     if: "n" = #0 then lhead "l" else
-    match: !"l" with
-      SOME "p" => "go" (Snd "p") ("n" - #1)
-    | NONE => assert: #false
-    end.
+    let: "p" := unwrap !"l" in
+    "go" (Snd "p") ("n" - #1).
 
 Definition llength : val :=
   rec: "go" "l" :=
@@ -133,15 +126,18 @@ Lemma lhead_spec_aux l x xs :
   {{{ v (l' : loc), RET v; I x v ∗ l ↦ SOMEV (v,#l') ∗ llist I l' xs }}}.
 Proof.
   iIntros (Φ) "/=". iDestruct 1 as (v l') "(HIx & Hl & Hll)". iIntros "HΦ".
-  wp_lam. wp_load; wp_pures. iApply "HΦ"; eauto with iFrame.
+  wp_lam. wp_load; wp_pures. wp_apply unwrap_spec.
+  wp_pures. iApply "HΦ"; eauto with iFrame.
 Qed.
 Lemma lpop_spec_aux l l' v xs :
   {{{ l ↦ SOMEV (v,#l') ∗ llist I l' xs }}} lpop #l {{{ RET v; llist I l xs }}}.
 Proof.
   iIntros (Φ) "[Hl Hll] HΦ".
   wp_lam. wp_load. wp_pures. destruct xs as [|x' xs]; simpl; wp_pures.
-  - wp_load. wp_store. wp_pures. iApply "HΦ"; eauto with iFrame.
+  - wp_apply unwrap_spec. wp_pures. wp_load.
+    wp_store. wp_pures. iApply "HΦ"; eauto with iFrame.
   - iDestruct "Hll" as (v' l'') "(HIx' & Hl' & Hll)".
+    wp_apply unwrap_spec.
     wp_load. wp_store. wp_pures. iApply "HΦ"; eauto with iFrame.
 Qed.
 
@@ -174,6 +170,7 @@ Proof.
   - wp_smart_apply (lhead_spec with "Hll"); iIntros (v) "[HI Hll]".
     iApply "HΦ"; eauto with iFrame.
   - iDestruct "Hll" as (v l') "(HIx' & Hl' & Hll)". wp_load; wp_pures.
+    wp_apply unwrap_spec. wp_pures.
     rewrite Nat2Z.inj_succ Z.sub_1_r Z.pred_succ.
     wp_smart_apply ("IH" with "[//] Hll"); iIntros (v') "[HIx Hll]".
     iApply "HΦ". iIntros "{$HIx} HIx". iExists v, l'. iFrame. by iApply "Hll".
