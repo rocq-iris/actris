@@ -2,7 +2,7 @@
 mutable linked-lists. It comes with a small library of operations (head, pop,
 lookup, length, append, prepend, snoc, split). *)
 From iris.heap_lang Require Export proofmode notation.
-From iris.heap_lang Require Import assert unwrap.
+From iris.heap_lang Require Import unwrap.
 
 (**  *)
 Fixpoint llist `{heapGS Σ} {A} (I : A → val → iProp Σ)
