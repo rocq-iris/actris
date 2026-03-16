@@ -170,35 +170,35 @@ Section subtyping_rules.
     iApply lty_le_sum. iApply "HcpA". iApply "HcpB".
   Qed.
 
-  Lemma lty_le_forall C1 C2 :
-    ▷ (∀ A, C1 A <: C2 A) -∗
-    (∀ A, C1 A) <: (∀ A, C2 A).
+  Lemma lty_le_forall {k} (C1 C2 : lty Σ k → ltty Σ) :
+    ▷ (∀ K, C1 K <: C2 K) -∗
+    (∀ K, C1 K) <: (∀ K, C2 K).
   Proof.
     iIntros "#Hle" (v) "!> H". iIntros (w).
-    iApply (wp_step_fupd); first done.
+    iApply wp_step_fupd; first done.
     { iIntros "!> !> !>". iExact "Hle". }
     iApply (wp_wand with "H"). iIntros (v') "H Hle' !>".
     by iApply "Hle'".
   Qed.
 
-  Lemma lty_le_exist C1 C2 :
-    ▷ (∀ A, C1 A <: C2 A) -∗
-    (∃ A, C1 A) <: (∃ A, C2 A).
+  Lemma lty_le_exist {k} (C1 C2 : lty Σ k → ltty Σ) :
+    ▷ (∀ K, C1 K <: C2 K) -∗
+    (∃ K, C1 K) <: (∃ K, C2 K).
   Proof.
-    iIntros "#Hle" (v) "!>". iDestruct 1 as (A) "H". iExists A. by iApply "Hle".
+    iIntros "#Hle" (v) "!>". iDestruct 1 as (K) "H". iExists K. by iApply "Hle".
   Qed.
-  Lemma lty_le_exist_elim C B :
-    C B <: ∃ A, C A.
-  Proof. iIntros "!>" (v) "Hle". by iExists B. Qed.
-  Lemma lty_le_exist_copy F :
-    (∃ A, copy (F A)) <:> copy (∃ A, F A).
+  Lemma lty_le_exist_elim {k} (C : lty Σ k → ltty Σ) K' :
+    C K' <: ∃ K, C K.
+  Proof. iIntros "!>" (v) "Hle". by iExists K'. Qed.
+  Lemma lty_le_exist_copy {k} (C : lty Σ k → ltty Σ) :
+    (∃ K, copy (C K)) <:> copy (∃ K, C K).
   Proof.
-    iSplit; iIntros "!>" (v); iDestruct 1 as (A) "#Hv";
-      iExists A; repeat iModIntro; iApply "Hv".
+    iSplit; iIntros "!>" (v); iDestruct 1 as (K) "#Hv";
+      iExists K; repeat iModIntro; iApply "Hv".
   Qed.
 
-  Lemma lty_copyable_exist (C : ltty Σ → ltty Σ) :
-    (∀ M, lty_copyable (C M)) -∗ lty_copyable (lty_exist C).
+  Lemma lty_copyable_exist {k} (C : lty Σ k → ltty Σ) :
+    (∀ K, lty_copyable (C K)) -∗ lty_copyable (lty_exist C).
   Proof.
     iIntros "#Hle". rewrite /lty_copyable /tc_opaque.
     iApply lty_le_r; last by iApply lty_le_exist_copy.
