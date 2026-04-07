@@ -15,7 +15,7 @@ Definition prog_5 : expr :=
 (* The invariant for program 5 uses a ghost variable to allow the forked thread to
    update 'e' when linking. *)
 Definition prog_5_inv (d : loc) γe : iProp Σ :=
-  ∃ n e, is_queue d e (replicate n #42) ∗ ghost_var γe (1/2) e.
+  ∃ n e, is_queue d e (replicate n #42) ∗ ghost_var_frac γe (1/2) e.
 
 Lemma prog_5_spec :
   {{{ True }}} prog_5 {{{ RET #42; True }}}.

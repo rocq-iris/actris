@@ -1,6 +1,6 @@
 From iris.heap_lang Require Import lib.assert.
 From iris.program_logic Require Export atomic.
-From iris.base_logic.lib Require Import invariants token ghost_var.
+From iris.base_logic.lib Require Import invariants token.
 From linking_actris.logic Require Import proofmode.
 
 Section invariants.

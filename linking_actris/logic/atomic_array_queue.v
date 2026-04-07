@@ -127,7 +127,7 @@ Fixpoint is_queue_list `{heapGS Σ, queueG Σ}
     (lh +ₗ END) ↦{if is_end then DfracOwn (1/2) else DfracDiscarded}
       #(start + length vs)%nat ∗
     meta lh nroot γlh ∗
-    mono_nat_auth_own γlh 1 (start + length vs) ∗
+    mono_nat_auth_own_frac γlh 1 (start + length vs) ∗
     (if is_end
      then ⌜lh = lt⌝ ∗ (lh +ₗ NEXT) ↦ NONEV
      else ∃ l : loc, (lh +ₗ NEXT) ↦□ SOMEV #l ∗ is_queue_list false l lt vss) ∗
@@ -140,7 +140,7 @@ Local Definition is_queue_def `{heapGS Σ, queueG Σ}
     ⌜ vs = mjoin vss ⌝ ∗
     meta ltptr nroot γlt ∗
     lhptr ↦{#3/4} #lh ∗
-    ghost_var γlt (1/2) lt ∗
+    ghost_var_frac γlt (1/2) lt ∗
     is_queue_list true lh lt vss.
 Local Definition is_queue_aux : seal (@is_queue_def). Proof. by eexists. Qed.
 Definition is_queue := is_queue_aux.(unseal).
@@ -152,7 +152,7 @@ Local Definition enqueue_handle_def `{heapGS Σ, queueG Σ} (ltptr : loc) : iPro
   ∃ (γw : gname) (lt : loc) (eend : nat) (uninit : list val),
     ⌜ (eend + length uninit = SIZE)%nat ⌝ ∗
     meta ltptr nroot γw ∗
-    ghost_var γw (1/2) lt ∗
+    ghost_var_frac γw (1/2) lt ∗
     ltptr ↦ #lt ∗
     (lt +ₗ END) ↦{#1/2} #eend ∗
     (lt +ₗ (BUFFER + eend)) ↦∗ uninit.

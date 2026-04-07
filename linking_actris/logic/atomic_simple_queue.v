@@ -68,7 +68,7 @@ Local Definition is_queue_def `{heapGS Σ, queueG Σ}
     meta ltptr nroot γw ∗
     ⌜ vs = omap id mvs ⌝ ∗
     lhptr ↦{#3/4} #lh ∗
-    ghost_var γw (1/2) lt ∗
+    ghost_var_frac γw (1/2) lt ∗
     is_queue_list lh lt mvs ∗
     lt ↦ #tag_nil.
 Local Definition is_queue_aux : seal (@is_queue_def). Proof. by eexists. Qed.
@@ -80,7 +80,7 @@ Global Arguments is_queue {Σ _ _} lhptr ltptr vs.
 Local Definition enqueue_handle_def `{heapGS Σ, queueG Σ} (ltptr : loc) : iProp Σ :=
   ∃ (γw : gname) (lt : loc),
     meta ltptr nroot γw ∗
-    ghost_var γw (1/2) lt ∗
+    ghost_var_frac γw (1/2) lt ∗
     ltptr ↦ #lt ∗
     (lt +ₗ 1) ↦ #() ∗
     (lt +ₗ 2) ↦ #().
