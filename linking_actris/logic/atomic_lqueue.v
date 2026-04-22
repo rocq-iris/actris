@@ -55,7 +55,7 @@ Local Definition lqueue_inv `{!heapGS Σ, !lqueueG Σ}
   ∃ (Ls : list (list (loc * loc)))
       (m : gmap loc (loc * list val * list (loc * loc))),
     own γ.(llinks_name) (● (list_to_set_disj (mjoin Ls) ⊎ flatten (snd <$> m))) ∗
-    ghost_map_auth γ.(lchains_name) 1 (fst <$> m) ∗
+    ghost_map_auth_frac γ.(lchains_name) 1 (fst <$> m) ∗
     ([∗ map] lh ↦ x ∈ m, lchain x.2 lh x.1.1 x.1.2) ∗
     ([∗ list] L ∈ Ls, lcycle L).
 
