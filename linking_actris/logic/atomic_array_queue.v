@@ -255,7 +255,7 @@ Section queue_spec.
     - iDestruct "Hend'" as "[Hend'|(%γlh & Hmeta' & Hlb)]".
       + iCombine "Hend' Hend" gives %[_ ?]; simplify_eq/=. lia.
       + iDestruct (meta_agree with "Hmeta' Hmeta") as "->".
-        iDestruct (mono_nat_lb_own_valid with "Hmono Hlb") as %[_ ?]. lia.
+        iDestruct (mono_nat_auth_lb_own_valid with "Hmono Hlb") as %[_ ?]. lia.
     - iExists v, vs, vss.
       iDestruct (array_cons with "Hbuf") as "[Hv Hbuf]".
       iMod (pointsto_persist with "Hv") as "$".
