@@ -396,7 +396,7 @@ Section term_typing_rules.
     iApply (wp_wand with "(He HΓ)"). iIntros (v) "[Hv $]".
     iDestruct "Hv" as (l w ->) "[Hl HA]". iExists l.
     iMod (inv_alloc (ref_shrN .@ l) _
-      (∃ v : val, l ↦ v ∗ □ ltty_car A v) with "[Hl HA]") as "$"; last done.
+      (∃ v : val, l ↦ v ∗ □ ltty_car A v)%I with "[Hl HA]") as "$"; last done.
     iExists w. iFrame "Hl HA".
   Qed.
 
