@@ -2,6 +2,7 @@
 these lemmas are semantic versions of the syntactic typing judgments typically
 found in a syntactic type system. *)
 From iris.bi.lib Require Import core.
+From iris.base_logic.lib Require Import invariants.
 From iris.heap_lang Require Import metatheory.
 From iris.heap_lang.lib Require Export par.
 From actris.logrel Require Export subtyping_rules term_typing_judgment operators.
@@ -396,7 +397,7 @@ Section term_typing_rules.
     iApply (wp_wand with "(He HΓ)"). iIntros (v) "[Hv $]".
     iDestruct "Hv" as (l w ->) "[Hl HA]". iExists l.
     iMod (inv_alloc (ref_shrN .@ l) _
-      (∃ v : val, l ↦ v ∗ □ ltty_car A v)%I with "[Hl HA]") as "$"; last done.
+      (∃ v : val, l ↦ v ∗ □ ltty_car A v) with "[Hl HA]") as "$"; last done.
     iExists w. iFrame "Hl HA".
   Qed.
 
