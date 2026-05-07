@@ -119,11 +119,16 @@ Section term_types.
   Qed.
   Global Instance lty_arr_ne `{heapGS Σ} : NonExpansive2 lty_arr.
   Proof. solve_proper. Qed.
+  Global Instance lty_arr_proper `{heapGS Σ} :
+    Proper ((≡) ==> (≡) ==> (≡)) lty_arr.
+  Proof. solve_proper. Qed.
+
   Global Instance lty_prod_contractive n:
     Proper (dist_later n ==> dist_later n ==> dist n) (@lty_prod Σ).
   Proof. solve_contractive. Qed.
   Global Instance lty_prod_ne : NonExpansive2 (@lty_prod Σ).
   Proof. solve_proper. Qed.
+
   Global Instance lty_sum_contractive n :
     Proper (dist_later n ==> dist_later n ==> dist n) (@lty_sum Σ).
   Proof. solve_contractive. Qed.
@@ -151,14 +156,23 @@ Section term_types.
   Proof. solve_contractive. Qed.
   Global Instance lty_ref_uniq_ne `{heapGS Σ} : NonExpansive lty_ref_uniq.
   Proof. solve_proper. Qed.
+  Global Instance lty_ref_uniq_proper `{heapGS Σ} :
+    Proper ((≡) ==> (≡)) lty_ref_uniq.
+  Proof. solve_proper. Qed.
 
   Global Instance lty_ref_shr_contractive `{heapGS Σ} : Contractive lty_ref_shr.
   Proof. solve_contractive. Qed.
   Global Instance lty_ref_shr_ne `{heapGS Σ} : NonExpansive lty_ref_shr.
   Proof. solve_proper. Qed.
+  Global Instance lty_ref_shr_proper `{heapGS Σ} :
+    Proper ((≡) ==> (≡)) lty_ref_shr.
+  Proof. solve_proper. Qed.
 
   Global Instance lty_chan_contractive `{heapGS Σ, chanG Σ} : Contractive lty_chan.
   Proof. solve_contractive. Qed.
   Global Instance lty_chan_ne `{heapGS Σ, chanG Σ} : NonExpansive lty_chan.
+  Proof. solve_proper. Qed.
+  Global Instance lty_chan_proper `{heapGS Σ, chanG Σ} :
+    Proper ((≡) ==> (≡)) lty_chan.
   Proof. solve_proper. Qed.
 End term_types.
