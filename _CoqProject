@@ -10,6 +10,9 @@
 # (https://github.com/coq/coq/issues/6294).
 -arg -w -arg -redundant-canonical-projection
 -arg -w -arg -notation-incompatible-prefix
+-arg -w -arg -notation-for-abbreviation
+-arg -w -arg -postfix-notation-not-level-1
+-arg -w -arg -level-tolerance
 # No common logical root, so we have to specify documentation root, to avoid warnings
 -docroot actris
 
