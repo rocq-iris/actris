@@ -2,6 +2,7 @@ image: ralfjung/opam-ci:opam2
 
 stages:
   - build
+  - notify
 
 variables:
   CPU_CORES: "10"
@@ -48,3 +49,18 @@ trigger-iris.dev:
   - triggers
   - schedules
   - api
+
+notify_on_schedule_failure:
+  stage: notify
+  needs: [ trigger-iris.dev ]
+  tags:
+  - fp
+  variables:
+    MATTERMOST_NOTIFICATION_USERS: "@jihgfee @robbertkrebbers"
+    NOTIFICATION_MESSAGE: "❌ **Nightly CI failed**"
+  script:
+    - git clone https://gitlab.mpi-sws.org/iris/ci.git ci -b opam2
+    - ci/send-notification.sh
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: on_failure
