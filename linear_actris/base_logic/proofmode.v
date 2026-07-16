@@ -1,5 +1,5 @@
 From linear_actris.base_logic Require Export wp.
-From iris.proofmode Require Import coq_tactics reduction.
+From iris.proofmode Require Import rocq_tactics reduction.
 
 (* ########################################################################## *)
 (** Automation for our program logic *)

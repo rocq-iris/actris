@@ -7,7 +7,7 @@ standard pattern using type classes to perform the normalization.
 In addition to the tactics for symbolic execution, this file defines the tactic
 [solve_proto_contractive], which can be used to automatically prove that
 recursive protocols are contractive. *)
-From iris.proofmode Require Import coq_tactics reduction spec_patterns.
+From iris.proofmode Require Import rocq_tactics reduction spec_patterns.
 From iris.heap_lang Require Export proofmode notation.
 From linking_actris.logic Require Export channel.
 
