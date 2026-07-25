@@ -17,7 +17,7 @@ Definition lty_msg_exist {k} (M : lty k → lmsg) : lmsg :=
   (∃ X, M X)%msg.
 
 Definition lty_msg_texist {kt : ktele} (M : ltys kt → lmsg) : lmsg :=
-  ktele_fold (@lty_msg_exist) (λ x, x) (ktele_bind M).
+  ktele_fold (@lty_msg_exist) (ktele_bind M).
 Arguments lty_msg_texist {!_} _%_lmsg /.
 
 Definition lty_end (a : action) := Lsty (END@a).

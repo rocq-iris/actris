@@ -24,14 +24,14 @@ Notation "kt -k> A" :=
   (ktele_fun kt A) (at level 99, A at level 200, right associativity).
 
 (** An eliminator for elements of [ktele_fun]. *)
-Definition ktele_fold {Σ X Y kt}
-    (step : ∀ {k}, (lty Σ k → Y) → Y) (base : X → Y) : (kt -k> X) → Y :=
-  (fix rec {kt} : (kt -k> X) → Y :=
-     match kt as kt return (kt -k> X) → Y with
-     | KTeleO => λ x : X, base x
+Definition ktele_fold {Σ X kt}
+    (step : ∀ {k}, (lty Σ k → X) → X) : (kt -k> X) → X :=
+  (fix rec {kt} : (kt -k> X) → X :=
+     match kt as kt return (kt -k> X) → X with
+     | KTeleO => λ x : X, x
      | KTeleS b => λ f, step (λ x, rec (f x))
      end) kt.
-Arguments ktele_fold {_ _ _ !_} _ _ _ /.
+Arguments ktele_fold {_ _ !_} _ _ /.
 
 (** A sigma-like type for an "element" of a telescope, i.e., the data it *)
 Inductive ltys {Σ} : ktele Σ → Type :=

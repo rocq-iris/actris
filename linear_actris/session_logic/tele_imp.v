@@ -59,7 +59,7 @@ Module TImp.
     @msg_dual = @msg_dual_def := msg_dual_aux.(seal_eq).
 
   Definition msg_texist {TT : tele} (m : TT → msg) : msg :=
-    tele_fold (@msg_exist) (λ x, x) (tele_bind m).
+    tele_fold (@msg_exist) (tele_bind m).
   Arguments msg_texist {!_} _%_msg /.
 
   (** * Operators *)

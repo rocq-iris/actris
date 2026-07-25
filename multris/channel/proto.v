@@ -78,7 +78,7 @@ Arguments iMsg_exist {_ _ _} _%_msg.
 Global Instance: Params (@iMsg_exist) 3 := {}.
 
 Definition iMsg_texist {Σ V} {TT : tele} (m : TT → iMsg Σ V) : iMsg Σ V :=
-  tele_fold (@iMsg_exist Σ V) (λ x, x) (tele_bind m).
+  tele_fold (@iMsg_exist Σ V) (tele_bind m).
 Arguments iMsg_texist {_ _ !_} _%_msg /.
 
 Notation "'MSG' v {{ P } } ; p" := (iMsg_base v P p)

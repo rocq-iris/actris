@@ -8,7 +8,7 @@ bug-reports: "https://gitlab.mpi-sws.org/iris/actris/issues"
 dev-repo: "git+https://gitlab.mpi-sws.org/iris/actris.git"
 
 depends: [
-  "rocq-iris-heap-lang" { (= "dev.2026-07-16.1.b8aa3470") | (= "dev") }
+  "rocq-iris-heap-lang" { (= "dev.2026-07-25.0.dd27b145") | (= "dev") }
 ]
 conflicts: [
   "coq-actris"
