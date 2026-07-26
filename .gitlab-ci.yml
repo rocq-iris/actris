@@ -32,7 +32,7 @@ variables:
 build-coq.9.0.0:
   <<: *template
   variables:
-    OPAM_PINS: "coq version 9.0.0"
+    OPAM_PINS: "rocq-core version 9.0.0"
     DENY_WARNINGS: "1"
     OPAM_PKG: "1"
   tags:
@@ -43,7 +43,7 @@ trigger-iris.dev:
   variables:
     STDPP_REPO: "iris/stdpp"
     IRIS_REPO: "iris/iris"
-    OPAM_PINS: "coq version $NIGHTLY_COQ   git+https://gitlab.mpi-sws.org/$STDPP_REPO#$STDPP_REV   git+https://gitlab.mpi-sws.org/$IRIS_REPO#$IRIS_REV"
+    OPAM_PINS: "rocq-core version $NIGHTLY_COQ   git+https://gitlab.mpi-sws.org/$STDPP_REPO#$STDPP_REV   git+https://gitlab.mpi-sws.org/$IRIS_REPO#$IRIS_REV"
   except:
   only:
   - triggers
