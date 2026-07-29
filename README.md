@@ -10,7 +10,7 @@ the paper
 
 It has been built and tested with the following dependencies
 
- - Rocq 9.0.0
+ - Rocq 9.2.0
  - The version of Iris in the [opam file](opam)
 
 In order to build, install the above dependencies and then run
