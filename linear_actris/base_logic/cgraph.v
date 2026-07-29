@@ -1066,7 +1066,8 @@ Section cgraph.
 End cgraph.
 
 Section cgraph_si.
-  Context `{!Sbi PROP, Countable V} {L : ofe}.
+  Context `{!Sbi PROP, !BiPersistentlyExist PROP, Countable V} {L : ofe}.
+  Local Set Default Proof Using "Type*".
   Implicit Types g : cgraph V L.
 
   Lemma in_labels_out_edges g ν2 l X :

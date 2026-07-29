@@ -377,7 +377,7 @@ Section instances.
 
   Lemma linPred_bi_persistently_mixin :
     BiPersistentlyMixin (PROP:=linPred M)
-      linPred_entails linPred_emp linPred_and linPred_exist linPred_sep
+      linPred_entails linPred_emp linPred_and linPred_sep
       linPred_persistently.
   Proof.
     split; rewrite !linPred_unseal.
@@ -388,7 +388,6 @@ Section instances.
     - iIntros (P x) "_ HP //".
     - iIntros (x) "_ Hx". by iRewrite "Hx".
     - iIntros (P Q x) "_ #[??]". by iSplit.
-    - iIntros (A Ψ x) "_ HΨ //".
     - iIntros (P Q x) "_ #(%x1 & %x2 & Hxeq & ? & ?) //".
     - iIntros (P Q x) "_ #[??]". iExists ε, x. rewrite left_id. auto.
   Qed.
@@ -477,6 +476,9 @@ Section instances.
   Global Instance linPred_bi_persistently_forall :
     BiPersistentlyForall linPredI.
   Proof. intros A Φ. rewrite !linPred_unseal_bi. iIntros (x) "#Hx #H //". Qed.
+  Global Instance linPred_bi_persistently_exist :
+    BiPersistentlyExist linPredI.
+  Proof. intros A Φ. rewrite !linPred_unseal_bi. iIntros (x) "_ HΨ //". Qed.
 
   Global Instance linPred_bi_pure_forall :
     BiPureForall linPredI.
