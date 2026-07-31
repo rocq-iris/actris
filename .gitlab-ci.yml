@@ -29,7 +29,7 @@ variables:
 
 ## Build jobs
 
-build-coq.9.2.0:
+build-rocq.9.2.0:
   <<: *template
   variables:
     OPAM_PINS: "rocq-core version 9.2.0   rocq-stdlib version 9.1.0"
