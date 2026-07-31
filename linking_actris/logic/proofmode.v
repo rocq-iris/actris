@@ -188,7 +188,7 @@ Lemma tac_wp_recv `{!chanGS Σ, !heapGS Σ} {TT : tele} Δ i j K c p m tv tP tP'
   envs_lookup i Δ = Some (false, c ↣ p)%I →
   ProtoNormalize false p [] (<?> m) →
   MsgTele m tv tP tp →
-  (∀.. x, MaybeIntoLaterN false 1 (tele_app tP x) (tele_app tP' x)) →
+  (∀.. x, MaybeIntoLaterN false 1 (tele_app tP x : _) (tele_app tP' x)) →
   let Δ' := envs_delete false i false Δ in
   (∀.. x : TT,
     match envs_app false
@@ -202,14 +202,14 @@ Proof.
   rewrite !tforall_forall right_id.
   intros ? Hp Hm HP HΦ. rewrite envs_lookup_sound //; simpl.
   assert (c ↣ p ⊢ c ↣ <?.. x>
-    MSG tele_app tv x {{ ▷ tele_app tP' x }}; tele_app tp x) as ->.
+    MSG tele_app tv x {{ ▷ (tele_app tP' x : _) }}; tele_app tp x) as ->.
   { iIntros "Hc". iApply (iProto_mapsto_le with "Hc"). iIntros "!>".
     iApply iProto_le_trans; [iApply Hp|rewrite Hm].
     iApply iProto_le_texist_elim_l; iIntros (x).
     iApply iProto_le_trans; [|iApply (iProto_le_texist_intro_r _ x)]; simpl.
     iIntros "H". by iDestruct (HP with "H") as "$". }
   rewrite -wp_bind. eapply bi.wand_apply;
-    [by eapply bi.wand_entails, (recv_spec _ (tele_app tv) (tele_app tP') (tele_app tp))|f_equiv; first done].
+    [by eapply bi.wand_entails, (recv_spec _ (tele_app tv) (tele_app tP') (tele_app tp))|f_equiv].
   rewrite -bi.later_intro; apply bi.forall_intro=> x.
   specialize (HΦ x). destruct (envs_app _ _) as [Δ'|] eqn:HΔ'=> //.
   rewrite envs_app_sound //; simpl. by rewrite right_id HΦ.
@@ -283,7 +283,7 @@ Lemma tac_wp_send `{!chanGS Σ, !heapGS Σ} {TT : tele} Δ neg i js K c v p m tv
     | Some (Δ1,Δ2) =>
        match envs_app false (Esnoc Enil i (c ↣ tele_app tp x)) Δ2 with
        | Some Δ2' =>
-          v = tele_app tv x ∧
+          v =@{val} tele_app tv x ∧
           envs_entails Δ1 (tele_app tP x) ∧
           envs_entails Δ2' (WP fill K (of_val #()) {{ Φ }})
        | None => False
