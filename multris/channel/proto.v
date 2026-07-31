@@ -265,14 +265,14 @@ Section proto.
     MsgTele m1 v1 P1 prot1 →
     MsgTele m2 v2 P2 prot2 →
     ⌜ a1 = a2 ⌝ -∗
-    (■ ∀.. (xs1 : TT1), tele_app P1 xs1 -∗
-       ∃.. (xs2 : TT2), ⌜tele_app v1 xs1 = tele_app v2 xs2⌝ ∗
-                        ▷ (tele_app prot1 xs1 ≡ tele_app prot2 xs2) ∗
-                        tele_app P2 xs2) -∗
-    (■ ∀.. (xs2 : TT2), tele_app P2 xs2 -∗
-       ∃.. (xs1 : TT1), ⌜tele_app v1 xs1 = tele_app v2 xs2⌝ ∗
-                        ▷ (tele_app prot1 xs1 ≡ tele_app prot2 xs2) ∗
-                        tele_app P1 xs1) -∗
+    (■ ∀.. (xs1 : TT1), (tele_app P1 xs1 : _) -∗
+       ∃.. (xs2 : TT2), ⌜tele_app v1 xs1 =@{V} tele_app v2 xs2⌝ ∗
+                        ▷ (tele_app prot1 xs1 ≡@{iProto Σ V} tele_app prot2 xs2) ∗
+                        (tele_app P2 xs2 : _)) -∗
+    (■ ∀.. (xs2 : TT2), (tele_app P2 xs2 : _) -∗
+       ∃.. (xs1 : TT1), ⌜tele_app v1 xs1 =@{V} tele_app v2 xs2⌝ ∗
+                        ▷ (tele_app prot1 xs1 ≡@{iProto Σ V} tele_app prot2 xs2) ∗
+                        (tele_app P1 xs1 : _)) -∗
       (<a1> m1) ≡ (<a2> m2).
   Proof.
     iIntros (Hm1 Hm2 Heq) "#Heq1 #Heq2".

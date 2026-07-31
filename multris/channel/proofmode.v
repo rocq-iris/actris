@@ -156,7 +156,7 @@ Lemma tac_wp_recv `{!chanG Σ, !heapGS Σ} {TT : tele} Δ i j K v (n:nat) c p m 
   envs_lookup i Δ = Some (false, c ↣ p)%I →
   ProtoNormalize false p [] (<(Recv,n)> m) →
   MsgTele m tv tP tp →
-  (∀.. x, MaybeIntoLaterN false 1 (tele_app tP x) (tele_app tP' x)) →
+  (∀.. x, MaybeIntoLaterN false 1 (tele_app tP x : _) (tele_app tP' x)) →
   let Δ' := envs_delete false i false Δ in
   (∀.. x : TT,
     match envs_app false
@@ -171,14 +171,14 @@ Proof.
   rewrite !tforall_forall right_id.
   intros ? Hp Hm HP HΦ. rewrite envs_lookup_sound //; simpl.
   assert (c ↣ p ⊢ c ↣ <(Recv,n) @.. x>
-    MSG tele_app tv x {{ ▷ tele_app tP' x }}; tele_app tp x) as ->.
+    MSG tele_app tv x {{ ▷ (tele_app tP' x : _) }}; tele_app tp x) as ->.
   { iIntros "Hc". iApply (iProto_pointsto_le with "Hc"). iIntros "!>".
     iApply iProto_le_trans; [iApply Hp|rewrite Hm].
     iApply iProto_le_texist_elim_l; iIntros (x).
     iApply iProto_le_trans; [|iApply (iProto_le_texist_intro_r _ _ x)]; simpl.
     iIntros "H". by iDestruct (HP with "H") as "$". }
   rewrite -wp_bind. eapply bi.wand_apply;
-    [by eapply bi.wand_entails, (recv_spec _ n (tele_app tv) (tele_app tP') (tele_app tp))|f_equiv; first done].
+    [by eapply bi.wand_entails, (recv_spec _ n (tele_app tv) (tele_app tP') (tele_app tp))|f_equiv].
   rewrite -bi.later_intro; apply bi.forall_intro=> x.
   specialize (HΦ x). destruct (envs_app _ _) as [Δ'|] eqn:HΔ'=> //.
   rewrite envs_app_sound //; simpl. by rewrite right_id HΦ.
@@ -225,7 +225,7 @@ Lemma tac_wp_send `{!chanG Σ, !heapGS Σ} {TT : tele} Δ neg i js K (n:nat) w c
     | Some (Δ1,Δ2) =>
        match envs_app false (Esnoc Enil i (c ↣ tele_app tp x)) Δ2 with
        | Some Δ2' =>
-          v = tele_app tv x ∧
+          v =@{val} tele_app tv x ∧
           envs_entails Δ1 (tele_app tP x) ∧
           envs_entails Δ2' (WP fill K (of_val #()) {{ Φ }})
        | None => False
@@ -303,9 +303,9 @@ Lemma iProto_consistent_equiv_proof {Σ} (ps : list (iProto Σ)) :
        (<(Recv, i)> m2')%proto ≡ (<(Recv, i)> m2)%proto ∗
        ⌜MsgTele (TT:=TT1) m1' tv1 tP1 tp1⌝ ∗
        ⌜MsgTele (TT:=TT2) m2' tv2 tP2 tp2⌝ ∗
-   ∀.. (x : TT1), tele_app tP1 x -∗
-   ∃.. (y : TT2), ⌜tele_app tv1 x = tele_app tv2 y⌝ ∗
-                  tele_app tP2 y ∗
+   ∀.. (x : TT1), (tele_app tP1 x : _) -∗
+   ∃.. (y : TT2), ⌜tele_app tv1 x =@{val} tele_app tv2 y⌝ ∗
+                  (tele_app tP2 y : _) ∗
                   ▷ (iProto_consistent
                        (<[i:=tele_app tp1 x]>(<[j:=tele_app tp2 y]>ps)))) -∗
   iProto_consistent ps.
