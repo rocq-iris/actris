@@ -3,6 +3,8 @@
 -Q linear_actris linear_actris
 -Q linking_actris linking_actris
 -Q mini_actris mini_actris
+# No common logical root, so we have to specify documentation root, to avoid warnings
+-docroot actris
 # (line intentionally non-empty for `./make-package` script)
 # We sometimes want to locally override notation, and there is no good way to do that with scopes.
 -arg -w -arg -notation-overridden
@@ -13,8 +15,8 @@
 -arg -w -arg -notation-for-abbreviation
 -arg -w -arg -postfix-notation-not-level-1
 -arg -w -arg -level-tolerance
-# No common logical root, so we have to specify documentation root, to avoid warnings
--docroot actris
+# Need Rocq 9.3 for the rw tactic.
+-arg "-w -rewrite-rw"
 
 actris/utils/llist.v
 actris/utils/compare.v
