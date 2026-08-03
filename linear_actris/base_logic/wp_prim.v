@@ -80,7 +80,7 @@ Global Instance ginv_ne n :
   Proper
     (pointwise_relation _ (pointwise_relation _ (pointwise_relation _ (dist n))) ==>
     dist n) ginv.
-Proof. intros f f' Hf. rewrite /ginv. repeat f_equiv. apply Hf. Qed.
+Proof. solve_proper. Qed.
 
 Local Instance thread_inv_pre_ne n :
   Proper (pointwise_relation _ (pointwise_relation _ (dist n)) ==>
