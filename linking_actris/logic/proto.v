@@ -158,7 +158,8 @@ Section proto.
     iDestruct "Hown3" as (pl3) "[Hle3 H◯3]".
     iDestruct (iProto_own_auth_agree with "H●1 H◯1") as "#Hp1".
     iDestruct (iProto_own_auth_agree with "H●3 H◯3") as "#Hp3".
-    iModIntro. iApply bi.laterN_later. iNext.
+    iModIntro.
+    iApply bi.laterN_succ_r. iNext.
     iRewrite "Hp1" in "Hinterp12".
     iDestruct (iProto_interp_le_l with "Hinterp12 Hle1") as "Hinterp12".
     iRewrite "Hp3" in "Hinterp34".
