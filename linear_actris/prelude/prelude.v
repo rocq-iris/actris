@@ -1,5 +1,5 @@
 From stdpp Require Export ssreflect.
-From iris.algebra Require Import list.
+From iris.algebra Require Import list stepindex_finite.
 From iris.bi Require Import bi.
 From iris.prelude Require Export options.
 
@@ -92,5 +92,9 @@ Section quotient.
   Qed.
 
   Lemma quotient_equiv (x1 x2 : Ofe A quotient_ofe_mixin) : x1 ≡ x2 ⊣⊢ R x1 x2.
-  Proof. rewrite /internal_eq. by siProp.unseal. Qed.
+  Proof.
+    rewrite /internal_eq. siProp.unseal.
+    (* FIXME: just becomes done when [nat_to_sidx_id] has been removed... *)
+    split=> n. by rewrite /siProp_holds /= nat_to_sidx_id.
+  Qed.
 End quotient.

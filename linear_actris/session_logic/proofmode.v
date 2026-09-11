@@ -1,5 +1,6 @@
 From linear_actris.session_logic Require Export tele_imp.
 From iris.proofmode Require Import rocq_tactics reduction spec_patterns.
+From iris.algebra Require Import stepindex_finite.
 Import TImp TImp.notations.
 
 (** Tactics for proving contractiveness of protocols *)

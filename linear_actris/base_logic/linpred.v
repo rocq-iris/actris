@@ -1,4 +1,4 @@
-From iris.algebra Require Export cmra.
+From iris.algebra Require Export cmra stepindex_finite.
 From iris.proofmode Require Export proofmode.
 From iris.si_logic Require Export bi.
 From linear_actris.prelude Require Export prelude.
@@ -49,7 +49,9 @@ Section ofe.
   Proof.
     (* FIXME: using the lemma quotient_equiv is broken. *)
     change (P ≡ Q ⊣⊢ linPred_internal_eq P Q).
-    rewrite /internal_eq. by siProp.unseal.
+    rewrite /internal_eq. siProp.unseal.
+    (* FIXME: just becomes done when [nat_to_sidx_id] has been removed... *)
+    split=> n. by rewrite /siProp_holds /= nat_to_sidx_id.
   Qed.
 
   (** OFE quotients do not give a COFE. We instead show that [linPredO] is a COFE
@@ -445,10 +447,10 @@ Section instances.
     bi_impl = @linPred_defs.linPred_impl_def M.
   Proof. by rewrite -linPred_defs.linPred_impl_unseal. Qed.
   Local Lemma linPred_forall_unseal :
-    @bi_forall _ = @linPred_defs.linPred_forall_def M.
+    @bi_forall _ _ = @linPred_defs.linPred_forall_def M.
   Proof. by rewrite -linPred_defs.linPred_forall_unseal. Qed.
   Local Lemma linPred_exist_unseal :
-    @bi_exist _ = @linPred_defs.linPred_exist_def M.
+    @bi_exist _ _ = @linPred_defs.linPred_exist_def M.
   Proof. by rewrite -linPred_defs.linPred_exist_unseal. Qed.
   Local Lemma linPred_sep_unseal :
     bi_sep = @linPred_defs.linPred_sep_def M.
@@ -651,7 +653,7 @@ Section bi_facts.
   Qed.
 
   Global Instance linPred_emp_timeless :
-    Discrete (ε : M) → Timeless (@bi_emp linPred).
+    Discrete (ε : M) → Timeless (@bi_emp _ linPred).
   Proof.
     rewrite /Timeless linPred_entails. iIntros (? x) "#Hx Hemp".
     rewrite linPred_at_later linPred_at_except_0 linPred_at_emp. by iMod "Hemp".

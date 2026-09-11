@@ -117,13 +117,13 @@ Section aProp.
     intros. rewrite gmap_op_union; last by apply map_disjoint_fmap.
     by rewrite -map_fmap_union.
   Qed.
-  Lemma excl_outEdges_op_validI `{Sbi PROP} Σ1 Σ2 :
+  Lemma excl_outEdges_op_validI `{!Sbi PROP} Σ1 Σ2 :
     ✓ (excl_outEdges Σ1 ⋅ excl_outEdges Σ2) ⊢@{PROP} ⌜ Σ1 ##ₘ Σ2 ⌝.
   Proof.
     iIntros "Hvalid". by iDestruct (internal_cmra_valid_elim with "Hvalid")
       as %Hdisj%gmap_op_valid0_disjoint%map_disjoint_fmap.
   Qed.
-  Lemma excl_outEdges_uninj `{Sbi PROP} x :
+  Lemma excl_outEdges_uninj `{!Sbi PROP} x :
     ✓ x ⊢@{PROP} ∃ Σ, x ≡ excl_outEdges Σ.
   Proof.
     change (cmra_car aResUR) with
