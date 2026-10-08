@@ -249,7 +249,7 @@ Instead, the closest artifact of each paper can be found below:
 
 - [Mixtris: Mechanised Higher-Order Separation Logic for Mixed Choice Multiparty Message Passing](https://doi.org/10.5281/zenodo.18749895)
 - [Verified Lock-Free Session Channels with Linking](https://doi.org/10.5281/zenodo.13599952)
-- [Multris: Functional Verification of Multiparty Message Passing in Separation Logic](https://dl.acm.org/doi/10.1145/3689762)
+- [Multris: Functional Verification of Multiparty Message Passing in Separation Logic](https://zenodo.org/records/13380561)
 - [Deadlock-Free Separation Logic: Linearity Yields Progress for Dependent Higher-Order Message Passing](https://doi.org/10.5281/zenodo.8422755)
 - [Verifying Reliable Network Components in a Distributed Separation Logic with Dependent Separation Protocols](https://zenodo.org/records/8121688)
 - [Dependent Session Protocols in Separation Logic from First Principles (Functional Pearl)](https://doi.org/10.5281/zenodo.7993904)
