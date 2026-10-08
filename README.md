@@ -1,56 +1,69 @@
-# ACTRIS COQ DEVELOPMENT
+# ACTRIS ROCQ DEVELOPMENT
 
-The [Actris](./actris) folder of this repository contains:
-- The Coq mechanization of the Actris framework, first presented in the paper
-[Actris: Session Type Based Reasoning in Separation Logic](https://iris-project.org/pdfs/2020-popl-actris-final.pdf)
-at POPL'20
-- The logical relations model for a semantic session type system, first presented in
-the paper
-[Machine-Checked Semantic Session Typing](https://iris-project.org/pdfs/2021-cpp-sessions-final.pdf)
+This is the official Rocq development regarding the [Actris](https://iris-project.org/actris/) line of work.
 
-It has been built and tested with the following dependencies
+## Overview
 
- - Rocq 9.2.0
- - The version of Iris in the [opam file](opam)
+The [actris](./actris) directory contains the [Actris 2.0](https://iris-project.org/pdfs/2022-lmcs-actris2-final.pdf) (extended from [Actris 1.0](https://iris-project.org/pdfs/2020-popl-actris-final.pdf)) framework for language-agnostic binary dependent separation protocols in Iris, along with its instantiation in HeapLang, and the [semantic session type system](https://iris-project.org/pdfs/2021-cpp-sessions-final.pdf) built on top of it.
 
-In order to build, install the above dependencies and then run
-`make -j [num CPU cores]` to compile Actris.
+The [mini_actris](./mini_actris) directory contains [MiniActris](https://apndx.org/pub/mpy9/miniactris.pdf) a first principles approach to Actris based on mutable references in HeapLang.
 
-## Theory of Actris
+The [linear_actris](./linear_actris) directory contains [LinearActris](https://iris-project.org/pdfs/2024-popl-dlfactris.pdf), a variant of MiniActris on top of linear Iris, that guarantees deadlock freedom via connectivity graphs.
 
-The theory of Actris (semantics of channels, the model, and the proof rules)
-can be found in the directory [actris/channel](actris/channel).
-The individual types contain the following:
+The [linking_actris](./linking_actris) directory contains [LinkingActris](https://iris-project.org/pdfs/2024-oopsla-linking-actris.pdf), a variant of Actris for HeapLang that permits linking channel endpoints with dual protocols.
 
-- [actris/channel/proto_model.v](actris/channel/proto_model.v): The
-  construction of the model of dependent separation protocols as the solution of
-  a recursive domain equation.
-- [actris/channel/proto.v](actris/channel/proto.v): The instantiation of
-  protocols with the Iris logic, definition of `iProto_own` for channel endpoint
-  ownership, and lemmas corresponding to the Actris proof rules.
-  The relevant definitions and proof rules are as follows:
-  + `iProto Σ`: The type of protocols.
-  + `iProto_message`: The constructor for sends and receives.
-  + `iProto_end`: The constructor for terminated protocols.
-  + `iProto_le`: The subprotocol relation for protocols (notation `⊑`).
-- [actris/channel/channel.v](actris/channel/channel.v): The encoding of
-  bidirectional channels in terms of Iris's HeapLang language, with specifications
-  defined in terms of the dependent separation protocols.
-  The relevant definitions and proof rules are as follows:
-  + `iProto_pointsto`: endpoint ownership (notation `↣`).
-  + `new_chan_spec`, `send_spec` and `recv_spec`: proof rule for `new_chan`,
-	`send`, and `recv`.
-  + `select_spec` and `branch_spec`: proof rule for the derived (binary)
-	`select` and `branch` operations.
+The [multris](./multris) directory contains the [Multris](https://iris-project.org/pdfs/2024-oopsla-multris.pdf) framework for language-agnostic multiparty (synchronous) dependent separation protocols in Iris, along with its instantiation in HeapLang.
 
-## Notation
+Actris has additionally been instantiated for [distributed systems](https://github.com/logsem/aneris/tree/master/aneris/examples/reliable_communication), although this instantiation is maintained separately.
+
+## Build and Installation Instructions
+
+Actris can be built in two ways:
+
+- Release version
+- Development version
+
+Both versions can be built using opam version 2.5.2, which is available
+through most package managers: https://opam.ocaml.org/doc/Install.html
+
+To avoid interference with existing local installations in opam, it is
+recommended to first make a new switch with
+`opam switch create actris ocaml-base-compiler.5.4.1`
+
+### Installing release version
+
+To install the release version, first add the Rocq release repository:
+
+	opam repo add rocq-released https://rocq-prover.github.io/opam/released/
+
+Then install Actris via:
+
+	opam install rocq-actris
+
+### Building and Installing development version
+
+To install the development version, first add the Iris repository:
+
+	opam repo add iris-dev https://gitlab.mpi-sws.org/iris/opam.git
+
+and then run `make build-dep [num CPU cores]`.
+
+To build all projects run `make -j [num CPU cores]`.
+
+To compile a specific directory, use `./make-package [directory_name] -j [num CPU cores]`.
+
+After compilation, the development version can be installed via `make install`.
+
+## Detailed Insights
+
+### Notation
 
 The following table gives a mapping between the notation in literature
-and the Coq mechanization:
+and the Rocq mechanization:
 
 Dependent Separation Protocols:
 
-|        | POPL20 paper                  | Coq mechanization                     |
+|        | Papers                        | Rocq mechanization                     |
 |--------|-------------------------------|---------------------------------------|
 | Send   | `! x_1 .. x_n <v>{ P }. prot` | `<! x_1 .. x_n> MSG v {{ P }}; prot`  |
 | Recv   | `? x_1 .. x_n <v>{ P }. prot` | `<? x_1 .. x_n> MSG v {{ P }}; prot`  |
@@ -60,11 +73,18 @@ Dependent Separation Protocols:
 | Append | `prot_1 · prot_2`             | `prot_1 <++> prot_2`                  |
 | Dual   | An overlined protocol         | No notation                           |
 
-This notation is additionally used for the LMCS submission.
+Multiparty Dependent Separation Protocols:
+
+|      | Papers                           | Rocq mechanization                             |
+|------|----------------------------------|-----------------------------------------------|
+| Send | `![i] x_1 .. x_n <v>{ P }. prot` | `<(Send,i) @ x_1 .. x_n> MSG v {{ P }}; prot` |
+| Recv | `?[i] x_1 .. x_n <v>{ P }. prot` | `<(Recv,i) @ x_1 .. x_n> MSG v {{ P }}; prot` |
+| End  | `end`                            | `END`                                         |
+| Dual | An overlined protocol            | No notation                                   |
 
 Semantic Session Types:
 
-|          | CPP21 submission              | Coq mechanization                     |
+|          | Papers                        | Rocq mechanization                     |
 |----------|-------------------------------|---------------------------------------|
 | Send     | `!_{X_1 .. X_n} A . S`        | `<!! X_1 .. X_n> TY A ; S`            |
 | Recv     | `?_{X_1 .. X_n} A . S`        | `<?? X_1 .. X_n> TY A ; S`            |
@@ -74,7 +94,7 @@ Semantic Session Types:
 | Dual     | An overlined type             | No notation                           |
 | N-append | `S^n`                         | lty_napp S n                          |
 
-## Coq tactics
+### Rocq tactics
 
 In order to prove programs using Actris, one can make use of a combination of
 [Iris's symbolic execution tactics for HeapLang programs][HeapLang] and
@@ -119,11 +139,56 @@ Concretely, the normalization performs the following actions:
   of the recursive protocol. For example, see `sort_protocol_br_unfold` in
   [actris/examples/sort_br_del.v](actris/examples/sort_br_del.v).
 
+Similar proofmode tactics are used all Actris instantiations.
+For Multris, additional tactics are included for creating new multiparty channels, and resolving the manual protocol consistency proof obligation.
+
+- `wp_new_chan prots with prots_consistent as (c0 .. cn) "Hc0" .. "Hcn"`:
+  symbolically execute `new_chan n` and the subsequent `get_chan 0...n`,
+  with the protocols `prot`,  and resolve the protocol consistency obligation via `prots_consistent`.
+  The tactic introduces the new channel endpoints as `c0 .. cn` and their
+  corresponding endpoint ownership as `Hc0 .. Hcn`.
+- `iProto_consistent_take_steps`:
+  naively introduces all variables/resources of senders, and eagerly
+  instanstiate all variables and resolves resource obligations via IPM framing
+  of receivers. If the tactic cannot resolve an obligation by framing it yields
+  the remaining proof goal to the user who can manually resolve it.
+  If the tactic gets stuck the user can try to reach a new state where progress is possible,
+  and reuse the tactic.
+  This happens most often when one needs to unfold Rocq definitions, do case analysis on e.g. booleans,
+  or use rewrite rules for unfolding recursive definitions.
+
 [HeapLang]: https://gitlab.mpi-sws.org/iris/iris/blob/master/HeapLang.md
 [ProofMode]: https://gitlab.mpi-sws.org/iris/iris/blob/master/ProofMode.md
 [ActrisProofMode]: actris/channel/proofmode.v
 
-## Semantic Session Type System
+### Theory of Actris
+
+The theory of Actris (semantics of channels, the model, and the proof rules)
+can be found in the directory [actris/channel](actris/channel).
+The individual types contain the following:
+
+- [actris/channel/proto_model.v](actris/channel/proto_model.v): The
+  construction of the model of dependent separation protocols as the solution of
+  a recursive domain equation.
+- [actris/channel/proto.v](actris/channel/proto.v): The instantiation of
+  protocols with the Iris logic, definition of `iProto_own` for channel endpoint
+  ownership, and lemmas corresponding to the Actris proof rules.
+  The relevant definitions and proof rules are as follows:
+  + `iProto Σ`: The type of protocols.
+  + `iProto_message`: The constructor for sends and receives.
+  + `iProto_end`: The constructor for terminated protocols.
+  + `iProto_le`: The subprotocol relation for protocols (notation `⊑`).
+- [actris/channel/channel.v](actris/channel/channel.v): The encoding of
+  bidirectional channels in terms of Iris's HeapLang language, with specifications
+  defined in terms of the dependent separation protocols.
+  The relevant definitions and proof rules are as follows:
+  + `iProto_pointsto`: endpoint ownership (notation `↣`).
+  + `new_chan_spec`, `send_spec` and `recv_spec`: proof rule for `new_chan`,
+	`send`, and `recv`.
+  + `select_spec` and `branch_spec`: proof rule for the derived (binary)
+	`select` and `branch` operations.
+
+### Semantic Session Type System
 
 The logical relation for type safety of a semantic session type system is contained
 in the directory [actris/logrel](actris/logrel).
@@ -132,7 +197,7 @@ The logical relation is defined across the following files:
 - [actris/logrel/model.v](actris/logrel/model.v): Definition of the
   notions of a semantic term type and a semantic session type in terms of
   unary Iris predicates (on values) and Actris protocols, respectively. Also
-  provides the required Coq definitions for creating recursive term/session
+  provides the required Rocq definitions for creating recursive term/session
   types.
 - [actris/logrel/term_types.v](actris/logrel/term_types.v): Definitions
   of the following semantic term types: basic types (integers, booleans, unit),
@@ -177,10 +242,17 @@ lemmas, and a weakest precondition for `llength`,
 that converts ownership of a list type into a list reference predicate, with
 the values of the list made explicit.
 
-## Paper-specific remarks
+## Actris Artifacts
 
-For remarks about the paper-specific submissions, see
+The repository rarely coincide with the final paper artifacts, as these are customised to fit the individual conference artifact evaluation procedure.
+Instead, the closest artifact of each paper can be found below:
 
-- [papers/POPL20.md](papers/POPL20.md)
-- [papers/CPP21.md](papers/CPP21.md)
-- [papers/LMCS.md](papers/LMCS.md)
+- [Mixtris: Mechanised Higher-Order Separation Logic for Mixed Choice Multiparty Message Passing](https://doi.org/10.5281/zenodo.18749895)
+- [Verified Lock-Free Session Channels with Linking](https://doi.org/10.5281/zenodo.13599952)
+- [Multris: Functional Verification of Multiparty Message Passing in Separation Logic](https://dl.acm.org/doi/10.1145/3689762)
+- [Deadlock-Free Separation Logic: Linearity Yields Progress for Dependent Higher-Order Message Passing](https://doi.org/10.5281/zenodo.8422755)
+- [Verifying Reliable Network Components in a Distributed Separation Logic with Dependent Separation Protocols](https://zenodo.org/records/8121688)
+- [Dependent Session Protocols in Separation Logic from First Principles (Functional Pearl)](https://doi.org/10.5281/zenodo.7993904)
+- [Actris 2.0](https://gitlab.mpi-sws.org/iris/actris/-/tree/lmcs)
+- [Machine-Checked Semantic Session Typing](https://zenodo.org/records/4322752)
+- [Actris 1.0](https://dl.acm.org/do/10.1145/3373096/)
