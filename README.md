@@ -63,36 +63,36 @@ and the Rocq mechanization:
 
 Dependent Separation Protocols:
 
-|        | Papers                        | Rocq mechanization                     |
-|--------|-------------------------------|---------------------------------------|
-| Send   | `! x_1 .. x_n <v>{ P }. prot` | `<! x_1 .. x_n> MSG v {{ P }}; prot`  |
-| Recv   | `? x_1 .. x_n <v>{ P }. prot` | `<? x_1 .. x_n> MSG v {{ P }}; prot`  |
-| End    | `end`                         | `END`                                 |
-| Select | `prot_1 {Q_1}⊕{Q_2} prot_2`   | `prot_1 <{Q_1}+{Q_2}> prot_2`         |
-| Branch | `prot_1 {Q_1}&{Q_2} prot_2`   | `prot_1 <{Q_1}&{Q_2}> prot_2`         |
-| Append | `prot_1 · prot_2`             | `prot_1 <++> prot_2`                  |
-| Dual   | An overlined protocol         | No notation                           |
+|        | Papers                        | Rocq mechanization                   |
+|--------|-------------------------------|--------------------------------------|
+| Send   | `! x_1 .. x_n <v>{ P }. prot` | `<! x_1 .. x_n> MSG v {{ P }}; prot` |
+| Recv   | `? x_1 .. x_n <v>{ P }. prot` | `<? x_1 .. x_n> MSG v {{ P }}; prot` |
+| End    | `end`                         | `END`                                |
+| Select | `prot_1 {Q_1}⊕{Q_2} prot_2`   | `prot_1 <{Q_1}+{Q_2}> prot_2`        |
+| Branch | `prot_1 {Q_1}&{Q_2} prot_2`   | `prot_1 <{Q_1}&{Q_2}> prot_2`        |
+| Append | `prot_1 · prot_2`             | `prot_1 <++> prot_2`                 |
+| Dual   | An overlined `prot`           | `iProto_dual prot`                   |
 
 Multiparty Dependent Separation Protocols:
 
-|      | Papers                           | Rocq mechanization                             |
+|      | Papers                           | Rocq mechanization                            |
 |------|----------------------------------|-----------------------------------------------|
 | Send | `![i] x_1 .. x_n <v>{ P }. prot` | `<(Send,i) @ x_1 .. x_n> MSG v {{ P }}; prot` |
 | Recv | `?[i] x_1 .. x_n <v>{ P }. prot` | `<(Recv,i) @ x_1 .. x_n> MSG v {{ P }}; prot` |
 | End  | `end`                            | `END`                                         |
-| Dual | An overlined protocol            | No notation                                   |
+| Dual | An overlined `prot`              | `iProto_dual prot`                            |
 
 Semantic Session Types:
 
-|          | Papers                        | Rocq mechanization                     |
-|----------|-------------------------------|---------------------------------------|
-| Send     | `!_{X_1 .. X_n} A . S`        | `<!! X_1 .. X_n> TY A ; S`            |
-| Recv     | `?_{X_1 .. X_n} A . S`        | `<?? X_1 .. X_n> TY A ; S`            |
-| End      | `end`                         | `END`                                 |
-| Select   | `(+){ Ss }`                   | `lty_choice SEND Ss`                  |
-| Branch   | `&{ Ss }`                     | `lty_choice RECV Ss`                  |
-| Dual     | An overlined type             | No notation                           |
-| N-append | `S^n`                         | lty_napp S n                          |
+|          | Papers                 | Rocq mechanization         |
+|----------|------------------------|----------------------------|
+| Send     | `!_{X_1 .. X_n} A . S` | `<!! X_1 .. X_n> TY A ; S` |
+| Recv     | `?_{X_1 .. X_n} A . S` | `<?? X_1 .. X_n> TY A ; S` |
+| End      | `end`                  | `END`                      |
+| Select   | `(+){ Ss }`            | `lty_choice SEND Ss`       |
+| Branch   | `&{ Ss }`              | `lty_choice RECV Ss`       |
+| Dual     | An overlined `S`       | `lty_dual S`               |
+| N-append | `S^n`                  | `lty_napp S n`             |
 
 ### Rocq tactics
 
